@@ -44,12 +44,11 @@ namespace RESTFull.API.Controllers
         // POST: ParticipantController/Create
         [HttpPost("/Participants/")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult<Participant>> Create(IFormCollection collection)
+        public async Task<ActionResult<Participant>> Create(ParticipantCreateDto dto)
         {
             try
             {
-                ParticipantCreateDto ParticipantDto = _mapper.mapToCreateDto(collection);
-                Participant Participant = _service.create(ParticipantDto);
+                Participant Participant = _service.create(dto);
                 return CreatedAtAction(nameof(findById), Participant.Id.ToString());
             }
             catch
@@ -61,12 +60,11 @@ namespace RESTFull.API.Controllers
         // POST: ParticipantController/Edit/5
         [HttpPut("/Participants/{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult<Participant>> Edit(String id, IFormCollection collection)
+        public async Task<ActionResult<Participant>> Edit(String id, ParticipantUpdateDto dto)
         {
             try
             {
-                ParticipantUpdateDto ParticipantDto = _mapper.mapToUpdateDto(collection);
-                Participant Participant = _service.update(ParticipantDto);
+                Participant Participant = _service.update(dto);
                 return CreatedAtAction(nameof(findById), Participant.Id.ToString());
             }
             catch

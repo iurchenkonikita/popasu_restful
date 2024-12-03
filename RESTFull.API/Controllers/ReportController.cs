@@ -50,12 +50,11 @@ namespace RESTFull.API.Controllers
         // POST: ReportController/Create
         [HttpPost("/reports/")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult<Report>> Create(IFormCollection collection)
+        public async Task<ActionResult<Report>> Create(ReportCreateDto dto)
         {
             try
             {
-                ReportCreateDto ReportDto = _mapper.mapToCreateDto(collection);
-                Report Report = _reportService.create(ReportDto);
+                Report Report = _reportService.create(dto);
                 return CreatedAtAction(nameof(findById), Report.Id.ToString());
             }
             catch
@@ -67,12 +66,11 @@ namespace RESTFull.API.Controllers
         // POST: ReportController/Edit/5
         [HttpPut("/reports/{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult<Report>> Edit(String id, IFormCollection collection)
+        public async Task<ActionResult<Report>> Edit(String id, ReportUpdateDto dto)
         {
             try
             {
-                ReportUpdateDto ReportDto = _mapper.mapToUpdateDto(collection);
-                Report Report = _reportService.update(ReportDto);
+                Report Report = _reportService.update(dto);
                 return CreatedAtAction(nameof(findById), Report.Id.ToString());
             }
             catch

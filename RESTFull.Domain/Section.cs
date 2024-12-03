@@ -8,9 +8,7 @@ namespace RESTFull.Domain
         public String title { get; set; }
         public String description { get; set; }
         public DateTime time { get; set; }
-        [NotMapped]
-        public List<Report> reports { get; set; }
-        [NotMapped]
+        public List<Report> reports { get; set; } = [];
         public Conference conference { get; set; }
 
         public void addReport(Report report)

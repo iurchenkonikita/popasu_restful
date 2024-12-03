@@ -50,12 +50,11 @@ namespace RESTFull.API.Controllers
 
         // POST: ConferenceController/Create
         [HttpPost("/")]
-        public async Task<ActionResult<Conference>> Create(IFormCollection collection)
+        public async Task<ActionResult<Conference>> Create(ConferenceCreateDto dto)
         {
             try
             {
-                ConferenceCreateDto conferenceDto = _mapper.mapToCreateDto(collection);
-                Conference conference = _conferenceService.create(conferenceDto);
+                Conference conference = _conferenceService.create(dto);
                 return CreatedAtAction(nameof(Create), conference);
             }
             catch
@@ -66,12 +65,11 @@ namespace RESTFull.API.Controllers
 
         // POST: ConferenceController/Edit/5
         [HttpPut("/{id}")]
-        public async Task<ActionResult<Conference>> Edit(String id, IFormCollection collection)
+        public async Task<ActionResult<Conference>> Edit(String id, ConferenceUpdateDto dto)
         {
             try
             {
-                ConferenceUpdateDto conferenceDto = _mapper.mapToUpdateDto(collection);
-                Conference conference = _conferenceService.update(conferenceDto);
+                Conference conference = _conferenceService.update(dto);
                 return CreatedAtAction(nameof(findById), conference.Id.ToString());
             }
             catch

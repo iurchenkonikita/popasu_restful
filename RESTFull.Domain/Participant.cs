@@ -9,10 +9,8 @@ namespace RESTFull.Domain
         public String role { get; set; }
         public String contactInfo { get; set; }
         public String organization { get; set; }
-        [NotMapped]
-        public List<Conference> conferences { get; set; }
-        [NotMapped]
-        public List<Report> reports { get; set; }
+        public List<Conference> conferences { get; set; } = [];
+        public List<Report> reports { get; set; } = [];
 
         public void addConference(Conference conference)
         {

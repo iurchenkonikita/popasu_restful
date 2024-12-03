@@ -11,14 +11,10 @@ namespace RESTFull.Domain
         public DateTime endDate { get; set; }
         public String location { get; set; }
         public String description { get; set; }
-        [NotMapped]
-        public List<Participant> organizationCommittee { get; set; }
-        [NotMapped]
-        public List<Participant> programCommittee { get; set; }
-        [NotMapped]
-        public List<Section> sections { get; set; }
-        [NotMapped]
-        public List<Participant> participants { get; set; }
+        public List<Participant> organizationCommittee { get; set; } = [];
+        public List<Participant> programCommittee { get; set; } = [];
+        public List<Section> sections { get; set; } = [];
+        public List<Participant> participants { get; set; } = [];
 
         public void addOrganizationCommittee(Participant member)
         {
