@@ -10,9 +10,8 @@ namespace RESTFull.API.dto
         public DateTime endDate { get; }
         public String location { get; }
         public String description { get; }
-        public List<String> organizationCommittee { get; }
 
-        public ConferenceCreateDto(string title, string status, DateTime startDate, DateTime endDate, string location, string description, List<String> organizationCommittee)
+        public ConferenceCreateDto(string title, string status, DateTime startDate, DateTime endDate, string location, string description)
         {
             this.title = title;
             this.status = status;
@@ -20,7 +19,7 @@ namespace RESTFull.API.dto
             this.endDate = endDate;
             this.location = location;
             this.description = description;
-            this.organizationCommittee = organizationCommittee;
+
         }
     }
 }

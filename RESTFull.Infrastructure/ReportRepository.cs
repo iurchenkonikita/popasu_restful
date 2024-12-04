@@ -76,7 +76,7 @@ namespace RESTFull.Infrastructure
 
         public List<Report> getAllByParticipant(Guid participantId)
         {
-            return Context.Set<Report>().Where(r => r.authors.All(a=>a.Id==participantId)).ToList();
+            return Context.Set<Report>().Where(r => r.authors.Any(a=>a.Id==participantId)).ToList();
         }
     }
 }

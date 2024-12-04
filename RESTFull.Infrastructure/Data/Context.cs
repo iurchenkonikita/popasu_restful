@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Azure;
+using Microsoft.EntityFrameworkCore;
 using RESTFull.Domain;
 
 namespace RESTFull.Infrastructure
@@ -9,28 +10,53 @@ namespace RESTFull.Infrastructure
         
         public Context(DbContextOptions<Context> options) : base(options) { }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            modelBuilder.Entity<Conference>()
-                .HasMany(c => c.organizationCommittee)
-                .WithMany();
-            modelBuilder.Entity<Conference>()
-                .HasMany(c => c.programCommittee)
-                .WithMany();
-            modelBuilder.Entity<Conference>()
-                .HasMany(c => c.participants)
-                .WithMany();
-
-            modelBuilder.Entity<Report>()
-                .HasMany(c => c.authors)
-                .WithMany();
+            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=restful;Trusted_Connection=True;MultipleActiveResultSets=true"); // Укажите строку подключения
         }
+
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+
+        //    modelBuilder.Entity<Conference>()
+        //        .HasMany(c => c.participants)
+        //        .WithMany(p => p.conferences)
+        //        .UsingEntity("ConferenceParticipant",
+        //            l => l.HasOne(typeof(Conference)).WithMany().HasForeignKey("ConferenceId").HasPrincipalKey(nameof(Conference.Id)),
+        //            r => r.HasOne(typeof(Participant)).WithMany().HasForeignKey("ParticipantId").HasPrincipalKey(nameof(Participant.Id)),
+        //            j => j.HasKey("ConferenceId", "ParticipantId"))
+        //        ;
+
+        //    ////modelBuilder.Entity<Conference>()
+        //    ////    .HasMany(c => c.participants)
+        //    ////    .WithMany(p => p.conferences);
+        //    //modelBuilder.Entity<Conference>()
+        //    //    .HasMany(c => c.sections)
+        //    //    .WithOne(s => s.conference);
+
+        //    //modelBuilder.Entity<Report>()
+        //    //    .HasMany(r => r.authors)
+        //    //    .WithMany(a => a.reports);
+
+        //    //modelBuilder.Entity<Section>()
+        //    //    .HasMany(s=>s.reports)
+        //    //    .WithOne(s => s.section);
+
+        //    ////modelBuilder.Entity<Participant>()
+        //    ////    .HasMany(p => p.conferences)
+        //    ////    .WithMany(c => c.participants);
+        //    //modelBuilder.Entity<Participant>()
+        //    //    .HasMany(p => p.reports)
+        //    //    .WithMany(c => c.authors);
+
+        //}
 
         public DbSet<Conference> Conferences { get; set; }
         public DbSet<Report> Reports { get; set; }
         public DbSet<Section> Sections { get; set; }
         public DbSet<Participant> Participants { get; set; }
 
-            
+
+
     }
 }

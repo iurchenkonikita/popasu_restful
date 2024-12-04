@@ -19,7 +19,6 @@ namespace RESTFull.API.mapper
             String desctiption = collection["desctiption"];
             DateTime startDate = DateTime.Parse(collection["startDate"]);
             DateTime endDate = DateTime.Parse(collection["endDate"]);
-            List<String> org = new List<string>();
 
 
 
@@ -30,8 +29,7 @@ namespace RESTFull.API.mapper
                 startDate,
                 endDate,
                 location,
-                desctiption,
-                org);
+                desctiption);
 
             return conference;
         }
@@ -44,8 +42,6 @@ namespace RESTFull.API.mapper
             String desctiption = collection["desctiption"];
             DateTime startDate = DateTime.Parse(collection["startDate"]);
             DateTime endDate = DateTime.Parse(collection["endDate"]);
-            List<String> org = new List<string>();
-            List<String> prog = new List<string>();
             List<String> sect = new List<string>();
             List<String> part = new List<string>();
 
@@ -58,8 +54,6 @@ namespace RESTFull.API.mapper
                 endDate,
                 location,
                 desctiption,
-                org,
-                prog,
                 sect,
                 part);
 

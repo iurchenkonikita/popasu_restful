@@ -66,14 +66,13 @@ namespace RESTFull.Infrastructure
 
         public List<Participant> GetAllByReport(Guid reportId)
         {
-            return Context.Set<Participant>().Where(c => c.reports.All(p => p.Id == reportId)).ToList();
+            return Context.Set<Participant>().Where(c => c.reports.Any(p => p.Id == reportId)).ToList();
         }
 
         public List<Participant> GetAllByConferenceId(Guid conferenceId)
         {
-            {
-                return Context.Set<Participant>().Where(c => c.conferences.All(p => p.Id == conferenceId)).ToList();
-            }
+            return Context.Set<Participant>().Where(c => c.conferences.Any(p => p.Id == conferenceId)).ToList();
+            
         }
     }
 }

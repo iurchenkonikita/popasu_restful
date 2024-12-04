@@ -11,28 +11,8 @@ namespace RESTFull.Domain
         public DateTime endDate { get; set; }
         public String location { get; set; }
         public String description { get; set; }
-        public List<Participant> organizationCommittee { get; set; } = [];
-        public List<Participant> programCommittee { get; set; } = [];
-        public List<Section> sections { get; set; } = [];
-        public List<Participant> participants { get; set; } = [];
-
-        public void addOrganizationCommittee(Participant member)
-        {
-            organizationCommittee.Add(member);
-        }
-        public void removeOrganizationCommittee(Participant member)
-        {
-            organizationCommittee.Remove(member);
-        }
-
-        public void addProgramCommittee(Participant member)
-        {
-            programCommittee.Add(member);
-        }
-        public void removeProgramCommittee(Participant member) 
-        { 
-            programCommittee.Remove(member); 
-        }
+        public List<Section> sections { get; set; } = new List<Section>();
+        public List<Participant> participants { get; set; } = new List<Participant>();
 
         public void addSection(Section section)
         {

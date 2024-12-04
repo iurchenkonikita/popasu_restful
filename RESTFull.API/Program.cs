@@ -52,7 +52,19 @@ if (app.Environment.IsDevelopment())
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<Context>();
-    context.Database.EnsureCreated(); // Создаёт базу данных и таблицы, если их нет
+
+    // Создание базы данных
+
+    //context.Database.OpenConnection(); // Открытие соединения для базы в памяти
+
+    //context.Database.EnsureCreated(); 
+    context.Database.Migrate();  // Создание схемы базы данных
+
+    // Работа с базой данных
+    context.SaveChanges();
+
+
+
 }
 
 app.UseHttpsRedirection();
