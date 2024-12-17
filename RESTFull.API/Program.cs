@@ -58,7 +58,8 @@ using (var scope = app.Services.CreateScope())
     //context.Database.OpenConnection(); // Открытие соединения для базы в памяти
 
     //context.Database.EnsureCreated(); 
-    context.Database.Migrate();  // Создание схемы базы данных
+    //context.Database.Migrate();  // Создание схемы базы данны
+
 
     // Работа с базой данных
     context.SaveChanges();

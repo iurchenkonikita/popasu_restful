@@ -36,10 +36,11 @@ namespace RESTFull.Service
             _mapper = mapper;
         }
 
-        public Conference create(ConferenceCreateDto createDto)
+        public ConferencePublicDto create(ConferenceCreateDto createDto)
         {
             Conference conference = _mapper.map(createDto);
-            return _conferenceRepository.Create(conference);
+            conference = _conferenceRepository.Create(conference);
+            return _mapper.map(conference);
         }
 
        
@@ -50,7 +51,7 @@ namespace RESTFull.Service
         }
 
 
-        public List<Conference> findAll()
+        public List<ConferencePublicDto> findAll()
         {
             List<Conference> conferences = _conferenceRepository.GetAll(); 
             foreach(Conference conference in  conferences)
@@ -60,10 +61,14 @@ namespace RESTFull.Service
                 conference.sections = sections;
                 conference.participants = participants;
             }
-            return conferences;
+            List<ConferencePublicDto> dtos = conferences.Aggregate(new List<ConferencePublicDto>(), 
+                (t, c) => {
+                    t.Add(_mapper.map(c)); return t;
+                });
+            return dtos;
         }
 
-        public Conference findById(Guid id)
+        public ConferencePublicDto findById(Guid id)
         {
             Conference conference = _conferenceRepository.GetById(id); 
             
@@ -72,14 +77,16 @@ namespace RESTFull.Service
             conference.sections = sections;
             conference.participants = participants;
 
-            return conference;
+            return _mapper.map(conference);
 
         }
 
-        public Conference update(ConferenceUpdateDto updateDto)
+        public ConferencePublicDto update(ConferenceUpdateDto updateDto)
         {
             Conference conference = _mapper.map(updateDto);
-            return _conferenceRepository.Update(conference);
+            conference= _conferenceRepository.Update(conference);
+
+            return _mapper.map(conference);
         }
     }
 }

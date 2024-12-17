@@ -49,13 +49,18 @@ namespace RESTFull.Infrastructure
 
         public Section Update(Section model)
         {
-            var curModel = Context.Set<Section>().FirstOrDefault(m => m.Id == model.Id);
+            var curModel = Context.Set<Section>().Find(model.Id);
             if (curModel != null)
             {
-                var toUpdate = model;
-                Context.Update(toUpdate);
+                curModel.title = model.title;
+                curModel.description = model.description;
+                curModel.time = model.time;
+                curModel.reports = model.reports;
+                curModel.conference = model.conference;
+
+                Context.Update(curModel);
                 Context.SaveChanges();
-                return toUpdate;
+                return curModel;
             }
             return null;
             

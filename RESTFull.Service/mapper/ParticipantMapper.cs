@@ -40,5 +40,40 @@ namespace RESTFull.Service.mapper
 
             return participant;
         }
+
+        public ParticipantPublicDto map(Participant participant)
+        {
+            ParticipantPublicDto result = new ParticipantPublicDto();
+
+            result.id = participant.Id.ToString();
+            result.name = participant.name;
+            result.role = participant.role;
+            result.contactInfo = participant.contactInfo;
+            result.organization = participant.organization;
+            result.conferences = participant.conferences.Aggregate(new List<ConferenceNoRefDto>(), 
+                (t, c) => { t.Add(ConferenceMapper.mapToNRDto(c)); return t; });
+            result.reports = participant.reports.Aggregate(new List<ReportNoRefDto>(), 
+                (t, c) => { t.Add(ReportMapper.mapToNRDto(c)); return t; });
+
+
+            return result;
+
+        }
+
+        public static ParticipantNoRefDto mapToNRDto(Participant participant) {
+            ParticipantNoRefDto result = new ParticipantNoRefDto();
+
+            result.id = participant.Id.ToString() ;
+            result.name = participant.name;
+            result.role = participant.role;
+            result.contactInfo = participant.contactInfo;
+            result.organization = participant.organization;
+            result.conferences = participant.conferences.Aggregate(new List<String>(), 
+                (t, c) => { t.Add(c.Id.ToString()); return t; });
+            result.reports = participant.reports.Aggregate(new List<String>(), 
+                (t, c) => { t.Add(c.Id.ToString()); return t; });
+
+            return result;
+        }
     }
 }

@@ -1,9 +1,11 @@
 ﻿using Azure;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using RESTFull.Domain;
 
 namespace RESTFull.Infrastructure
 {
+   
     public class Context : DbContext
     {
 
@@ -12,7 +14,13 @@ namespace RESTFull.Infrastructure
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=restful;Trusted_Connection=True;MultipleActiveResultSets=true"); // Укажите строку подключения
+            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Trusted_Connection=True;MultipleActiveResultSets=true;"); // Укажите строку подключения
+        }
+
+        public void InitializeDatabase(Context context)
+        {
+
+            context.Database.EnsureCreated();
         }
 
         //protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -18,13 +18,21 @@ namespace RESTFull.Service.impl
         private readonly IConferenceRepository _conferenceRepository;
         private readonly ParticipantMapper _mapper;
 
-        public Participant create(ParticipantCreateDto createDto)
+        public ParticipantService(IParticipantRepository participantRepository, IReportRepository reportRepository, IConferenceRepository conferenceRepository, ParticipantMapper mapper)
+        {
+            _participantRepository = participantRepository;
+            _reportRepository = reportRepository;
+            _conferenceRepository = conferenceRepository;
+            _mapper = mapper;
+        }
+
+        public ParticipantPublicDto create(ParticipantCreateDto createDto)
         {
             Participant participant = _mapper.Map(createDto);
 
             participant = _participantRepository.Create(participant);
 
-            return participant;
+            return _mapper.map(participant);
         }
 
         public void delete(Guid id)
@@ -32,7 +40,7 @@ namespace RESTFull.Service.impl
             _participantRepository.Delete(id);
         }
 
-        public List<Participant> findAll()
+        public List<ParticipantPublicDto> findAll()
         {
             List<Participant> participants = _participantRepository.GetAll();
             foreach (Participant participant in participants)
@@ -43,11 +51,11 @@ namespace RESTFull.Service.impl
                 participant.reports = reports;
                 participant.conferences = conferences;
             }
-
-            return participants;
+            List<ParticipantPublicDto> dtos = participants.Aggregate(new List<ParticipantPublicDto>(), (t, c) => { t.Add(_mapper.map(c)); return t; });
+            return dtos;
         }
 
-        public Participant findById(Guid id)
+        public ParticipantPublicDto findById(Guid id)
         {
 
             Participant participant = _participantRepository.GetById(id);
@@ -59,14 +67,14 @@ namespace RESTFull.Service.impl
             participant.reports = reports;
 
 
-            return participant;
+            return _mapper.map(participant);
         }
 
-        public Participant update(ParticipantUpdateDto updateDto)
+        public ParticipantPublicDto update(ParticipantUpdateDto updateDto)
         {
             Participant  participant = _mapper.Map(updateDto);
 
-            participant = _participantRepository.Create(participant);
+            participant = _participantRepository.Update(participant);
 
             List<Report> reports = _reportRepository.getAllByParticipant(participant.Id);
             List<Conference> conferences = _conferenceRepository.getAllByParticipant(participant.Id);
@@ -74,7 +82,7 @@ namespace RESTFull.Service.impl
             participant.reports = reports;
             participant.conferences = conferences;
 
-            return participant;
+            return _mapper.map(participant);
         }
     }
 }

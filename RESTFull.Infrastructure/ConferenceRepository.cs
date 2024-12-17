@@ -52,13 +52,21 @@ namespace RESTFull.Infrastructure
 
         public Conference Update(Conference model)
         {
-            var curModel = Context.Set<Conference>().FirstOrDefault(m => m.Id == model.Id);
+            var curModel = Context.Set<Conference>().Find(model.Id);
             if (curModel != null)
             {
-                var toUpdate = model;
-                Context.Update(toUpdate);
+                curModel.status = model.status;
+                curModel.title = model.title;
+                curModel.description = model.description;
+                curModel.sections = model.sections;
+                curModel.startDate = model.startDate;
+                curModel.endDate = model.endDate;
+                curModel.location = model.location;
+                curModel.participants = model.participants;
+
+                Context.Update(curModel);
                 Context.SaveChanges();
-                return toUpdate;
+                return curModel;
             }
             return null;
 

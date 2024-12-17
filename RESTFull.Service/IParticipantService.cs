@@ -10,10 +10,10 @@ namespace RESTFull.Service
 {
     public interface IParticipantService
     {
-        public Participant create(ParticipantCreateDto createDto);
-        public Participant update(ParticipantUpdateDto updateDto);
+        public ParticipantPublicDto create(ParticipantCreateDto createDto);
+        public ParticipantPublicDto update(ParticipantUpdateDto updateDto);
         public void delete(Guid id);
-        public Participant findById(Guid id);
-        public List<Participant> findAll();
+        public ParticipantPublicDto findById(Guid id);
+        public List<ParticipantPublicDto> findAll();
     }
 }

@@ -11,10 +11,10 @@ namespace RESTFull.Service
 {
     public interface ISectionService
     {
-        public Section create(SectionCreateDto createDto);
-        public Section update(SectionUpdateDto updateDto);
+        public SectionPublicDto create(SectionCreateDto createDto);
+        public SectionPublicDto update(SectionUpdateDto updateDto);
         public void delete(Guid id);
-        public Section findById(Guid id);
-        public List<Section> findAll();
+        public SectionPublicDto findById(Guid id);
+        public List<SectionPublicDto> findAll();
     }
 }

@@ -43,5 +43,35 @@ namespace RESTFull.Service.mapper
 
             return report;
         }
+
+        public ReportPublicDto map(Report report)
+        {
+            ReportPublicDto result = new ReportPublicDto();
+
+            result.Id = report.Id.ToString();
+            result.title = report.title;
+            result.annotation = report.annotation;
+            result.presentationTime = report.presentationTime;
+            result.section = SectionMapper.mapToNRDto(report.section);
+            result.authors = report.authors.Aggregate(new List<ParticipantNoRefDto>(), 
+                (t, c)=> { t.Add(ParticipantMapper.mapToNRDto(c)); return t; });  
+
+            return result;
+        }
+
+        public static ReportNoRefDto mapToNRDto(Report report)
+        {
+            ReportNoRefDto result = new ReportNoRefDto();
+
+            result.Id = report.Id.ToString() ;
+            result.title = report.title;
+            result.annotation = report.annotation; 
+            result.presentationTime = report.presentationTime;
+            result.section = report.section.Id.ToString();
+            result.authors = report.authors.Aggregate(new List<String>(), 
+                (t, c) => { t.Add(c.Id.ToString()); return t; });
+
+            return result;
+        }
     }
 }

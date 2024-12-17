@@ -13,24 +13,29 @@ namespace RESTFull.Service.impl
     public class SectionService : ISectionService
     {
         private readonly ISectionReporitory _sectionReporitory;
+        private readonly IConferenceRepository _conferenceRepository;
         private readonly IReportRepository _reportRepository;
         private readonly SectionMapper _mapper;
 
-        public SectionService(ISectionReporitory sectionReporitory, IReportRepository reportRepository, SectionMapper mapper)
+        public SectionService(ISectionReporitory sectionReporitory, IConferenceRepository conferenceRepository, IReportRepository reportRepository, SectionMapper mapper)
         {
             _sectionReporitory = sectionReporitory;
+            _conferenceRepository = conferenceRepository;
             _reportRepository = reportRepository;
             _mapper = mapper;
         }
 
-        public Section create(SectionCreateDto createDto)
+        public SectionPublicDto create(SectionCreateDto createDto)
         {
             Section section = _mapper.map(createDto);
+            Guid conferenceId = Guid.Parse(createDto.conference);
+            section.conference = _conferenceRepository.GetById(conferenceId);
+            section.reports = _reportRepository.getAllBySection(section.Id);
 
             section = _sectionReporitory.Create(section);
 
 
-            return section;
+            return _mapper.map(section);
         }
 
         public void delete(Guid id)
@@ -38,7 +43,7 @@ namespace RESTFull.Service.impl
             _sectionReporitory.Delete(id);
         }
 
-        public List<Section> findAll()
+        public List<SectionPublicDto> findAll()
         {
             List<Section> sections = _sectionReporitory.GetAll();
             foreach (Section section in sections)
@@ -47,30 +52,33 @@ namespace RESTFull.Service.impl
                 section.reports = reports;
             }
 
-            return sections;
+            List < SectionPublicDto > dtos = sections.Aggregate(new List<SectionPublicDto>(), (t, c) => { t.Add(_mapper.map(c)); return t; });
+
+            return dtos;
         }
 
-        public Section findById(Guid id)
+        public SectionPublicDto findById(Guid id)
         {
             Section section = _sectionReporitory.GetById(id);
 
-            List<Report> reports = _reportRepository.getAllBySection(section.Id);
-            section.reports = reports;
+            section.reports = _reportRepository.getAllBySection(section.Id);
 
 
-            return section;
+            return _mapper.map(section);
         }
 
-        public Section update(SectionUpdateDto updateDto)
+        public SectionPublicDto update(SectionUpdateDto updateDto)
         {
             Section section = _mapper.map(updateDto);
+            section.conference = _conferenceRepository.GetById(Guid.Parse(updateDto.conference));
+            section.reports = _reportRepository.getAllBySection(section.Id);
 
-            section = _sectionReporitory.Create(section);
+            section = _sectionReporitory.Update(section);
 
-            List<Report> reports = _reportRepository.getAllBySection(section.Id);
-            section.reports = reports;
+            section.conference = _conferenceRepository.GetById(Guid.Parse(updateDto.conference));
+            section.reports = _reportRepository.getAllBySection(section.Id);
 
-            return section;
+            return _mapper.map(section);
         }
 
 

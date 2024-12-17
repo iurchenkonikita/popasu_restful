@@ -15,8 +15,6 @@ namespace RESTFull.Service.dto
         public DateTime endDate { get; set; }
         public String location { get; set; }
         public String description { get; set; }
-        public List<String> organizationCommittee { get; set; }
-        public List<String> programCommittee { get; set; }
         public List<String> sections { get; set; }
         public List<String> participants { get; set; }
     }

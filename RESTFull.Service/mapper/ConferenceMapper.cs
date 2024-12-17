@@ -39,9 +39,55 @@ namespace RESTFull.Service.mapper
             result.endDate = updateDto.endDate;
             result.description = updateDto.description;
             result.location = updateDto.location;
-            
+
+
+            return result;
+        }
+        public ConferencePublicDto map(Conference conference)
+        {
+            ConferencePublicDto result = new ConferencePublicDto();
+
+            result.id = conference.Id.ToString();
+            result.title = conference.title;
+            result.status = conference.status;
+            result.startDate = conference.startDate;
+            result.endDate = conference.endDate;
+            result.description = conference.description;
+            result.location = conference.location;
+            result.sections = conference.sections.Aggregate(new List<SectionNoRefDto>(),
+                (total, c) => { total.Add(SectionMapper.mapToNRDto(c)); return total; });
+            result.participants = conference.participants.Aggregate(new List<ParticipantNoRefDto>(),
+                (total, c) => { total.Add(ParticipantMapper.mapToNRDto(c)); return total; });
+
+            return result;
+        }
+        public static ConferenceNoRefDto mapToNRDto(Conference conference)
+        {
+
+            ConferenceNoRefDto result = new ConferenceNoRefDto();
+
+            result.id = conference.Id.ToString();
+            result.title = conference.title;
+            result.status = conference.status;
+            result.startDate = conference.startDate;
+            result.endDate = conference.endDate;
+            result.description = conference.description;
+            result.location = conference.location;
+            result.sections = conference.sections.Aggregate(new List<String>(),
+                (total, c) =>
+                {
+                    total.Add(c.Id.ToString());
+                    return total;
+                });
+            result.participants = conference.participants.Aggregate(new List<String>(),
+                (total, c) =>
+                {
+                    total.Add(c.Id.ToString());
+                    return total;
+                });
 
             return result;
         }
     }
+        
 }

@@ -13,6 +13,7 @@ namespace RESTFull.API.mapper
             SectionCreateDto sectionDto = new SectionCreateDto(
                 collection["title"],
                 collection["description"],
+                collection["conference"],
                 DateTime.Parse(collection["time"])
                 );
 
@@ -24,6 +25,7 @@ namespace RESTFull.API.mapper
                 Guid.Parse(collection["id"].ToString()),
                 collection["title"],
                 collection["description"],
+                collection["conference"],
                 DateTime.Parse(collection["time"]),
                 new List<Guid>()
             );

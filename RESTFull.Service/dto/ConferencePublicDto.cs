@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace RESTFull.Service.dto
 {
+    
     public class ConferencePublicDto
     {
         public String id {  get; set; }
@@ -16,8 +17,6 @@ namespace RESTFull.Service.dto
         public DateTime endDate { get; set; }
         public String location { get; set; }
         public String description { get; set; }
-        public List<ParticipantNoRefDto> organizationCommittee { get; set; }
-        public List<ParticipantNoRefDto> programCommittee { get; set; }
         public List<SectionNoRefDto> sections { get; set; }
         public List<ParticipantNoRefDto> participants { get; set; }
     }

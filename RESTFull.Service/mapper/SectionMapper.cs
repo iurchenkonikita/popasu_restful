@@ -21,6 +21,7 @@ namespace RESTFull.Service.mapper
             section.title = createDto.title;
             section.description = createDto.description;
             section.time = createDto.time;
+           
 
             return section;
         }
@@ -34,6 +35,33 @@ namespace RESTFull.Service.mapper
             section.time = updateDto.time;
 
             return section;
+        }
+        public SectionPublicDto map(Section section)
+        {
+            SectionPublicDto result = new SectionPublicDto();
+
+            result.Id = section.Id.ToString();
+            result.description = section.description;
+            result.time = section.time;
+            result.title = section.title;
+            result.reports = section.reports.Aggregate(new List<ReportNoRefDto>(), 
+                (t, c) => { t.Add(ReportMapper.mapToNRDto(c)); return t; });
+            result.conference = ConferenceMapper.mapToNRDto(section.conference);
+
+            return result;
+        }
+        public static SectionNoRefDto mapToNRDto(Section section)
+        {
+            SectionNoRefDto result = new SectionNoRefDto();
+
+            result.Id = section.Id.ToString();
+            result.description = section.description;
+            result.time = section.time;
+            result.title = section.title;
+            result.reports = section.reports.Aggregate(new List<String>(), (t, c) => { t.Add(c.Id.ToString()); return t; });
+            result.conference = section.conference.Id.ToString();
+
+            return result;
         }
     }
 }

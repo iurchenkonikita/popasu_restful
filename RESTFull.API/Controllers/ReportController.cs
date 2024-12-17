@@ -31,30 +31,29 @@ namespace RESTFull.API.Controllers
 
         // GET: ReportController
         [HttpGet("/reports/")]
-        public ActionResult<List<Report>> findAll()
+        public ActionResult<List<ReportPublicDto>> findAll()
         {
-            List<Report> Reports = _reportService.findAll();
-            return new ActionResult<List<Report>>(Reports);
+            List<ReportPublicDto> Reports = _reportService.findAll();
+            return new ActionResult<List<ReportPublicDto>>(Reports);
         }
 
         // GET: ReportController/{id}
         [HttpGet("/reports/{id}")]
-        public async Task<ActionResult<Report>> findById(String id)
+        public async Task<ActionResult<ReportPublicDto>> findById(String id)
         {
 
-            Report Report = _reportService.findById(Guid.Parse(id));
-            return new ActionResult<Report>(Report);
+            ReportPublicDto Report = _reportService.findById(Guid.Parse(id));
+            return new ActionResult<ReportPublicDto>(Report);
         }
 
 
         // POST: ReportController/Create
         [HttpPost("/reports/")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult<Report>> Create(ReportCreateDto dto)
+        public async Task<ActionResult<ReportPublicDto>> Create(ReportCreateDto dto)
         {
             try
             {
-                Report Report = _reportService.create(dto);
+                ReportPublicDto Report = _reportService.create(dto);
                 return CreatedAtAction(nameof(findById), Report.Id.ToString());
             }
             catch
@@ -65,12 +64,11 @@ namespace RESTFull.API.Controllers
 
         // POST: ReportController/Edit/5
         [HttpPut("/reports/{id}")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult<Report>> Edit(String id, ReportUpdateDto dto)
+        public async Task<ActionResult<ReportPublicDto>> Edit(String id, ReportUpdateDto dto)
         {
             try
             {
-                Report Report = _reportService.update(dto);
+                ReportPublicDto Report = _reportService.update(dto);
                 return CreatedAtAction(nameof(findById), Report.Id.ToString());
             }
             catch

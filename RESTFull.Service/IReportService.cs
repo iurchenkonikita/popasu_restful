@@ -10,10 +10,10 @@ namespace RESTFull.Service
 {
     public interface IReportService
     {
-        public Report create(ReportCreateDto createDto);
-        public Report update(ReportUpdateDto updateDto);
+        public ReportPublicDto create(ReportCreateDto createDto);
+        public ReportPublicDto update(ReportUpdateDto updateDto);
         public void delete(Guid id);
-        public Report findById(Guid id);
-        public List<Report> findAll();
+        public ReportPublicDto findById(Guid id);
+        public List<ReportPublicDto> findAll();
     }
 }

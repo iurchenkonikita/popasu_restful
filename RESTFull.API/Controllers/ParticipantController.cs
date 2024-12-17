@@ -25,31 +25,30 @@ namespace RESTFull.API.Controllers
 
         // GET: ParticipantController
         [HttpGet("/Participants/")]
-        public ActionResult<List<Participant>> findAll()
+        public ActionResult<List<ParticipantPublicDto>> findAll()
         {
-            List<Participant> Participants = _service.findAll();
-            return new ActionResult<List<Participant>>(Participants);
+            List<ParticipantPublicDto> Participants = _service.findAll();
+            return new ActionResult<List<ParticipantPublicDto>>(Participants);
         }
 
         // GET: ParticipantController/{id}
         [HttpGet("/Participants/{id}")]
-        public async Task<ActionResult<Participant>> findById(String id)
+        public async Task<ActionResult<ParticipantPublicDto>> findById(String id)
         {
 
-            Participant Participant = _service.findById(Guid.Parse(id));
-            return new ActionResult<Participant>(Participant);
+            ParticipantPublicDto Participant = _service.findById(Guid.Parse(id));
+            return new ActionResult<ParticipantPublicDto>(Participant);
         }
 
 
         // POST: ParticipantController/Create
         [HttpPost("/Participants/")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult<Participant>> Create(ParticipantCreateDto dto)
+        public async Task<ActionResult<ParticipantPublicDto>> Create(ParticipantCreateDto dto)
         {
             try
             {
-                Participant Participant = _service.create(dto);
-                return CreatedAtAction(nameof(findById), Participant.Id.ToString());
+                ParticipantPublicDto Participant = _service.create(dto);
+                return CreatedAtAction(nameof(Create), Participant);
             }
             catch
             {
@@ -59,13 +58,12 @@ namespace RESTFull.API.Controllers
 
         // POST: ParticipantController/Edit/5
         [HttpPut("/Participants/{id}")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult<Participant>> Edit(String id, ParticipantUpdateDto dto)
+        public async Task<ActionResult<ParticipantPublicDto>> Edit(String id, ParticipantUpdateDto dto)
         {
             try
             {
-                Participant Participant = _service.update(dto);
-                return CreatedAtAction(nameof(findById), Participant.Id.ToString());
+                ParticipantPublicDto Participant = _service.update(dto);
+                return CreatedAtAction(nameof(Edit), Participant);
             }
             catch
             {

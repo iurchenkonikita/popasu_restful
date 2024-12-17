@@ -3,9 +3,11 @@ using RESTFull.API.mapper;
 using RESTFull.Domain;
 using RESTFull.Service;
 using RESTFull.Service.dto;
+using RESTFull.Service.gateway;
 
 namespace RESTFull.API.Controllers
 {
+
     public class SectionController : Controller
     {
         
@@ -24,32 +26,32 @@ namespace RESTFull.API.Controllers
 
 
         // GET: SectionController
-        [HttpGet("/Sections/")]
-        public ActionResult<List<Section>> findAll()
+        [HttpGet("/sections/")]
+        public ActionResult<List<SectionPublicDto>> findAll()
         {
-            List<Section> Sections = _sectionService.findAll();
-            return new ActionResult<List<Section>>(Sections);
+            List<SectionPublicDto> Sections = _sectionService.findAll();
+            return new ActionResult<List<SectionPublicDto>>(Sections);
         }
 
         // GET: SectionController/{id}
-        [HttpGet("/Sections/{id}")]
-        public async Task<ActionResult<Section>> findById(String id)
+        [HttpGet("/sections/{id}")]
+        public async Task<ActionResult<SectionPublicDto>> findById(String id)
         {
 
-            Section Section = _sectionService.findById(Guid.Parse(id));
-            return new ActionResult<Section>(Section);
+            SectionPublicDto Section = _sectionService.findById(Guid.Parse(id));
+            return new ActionResult<SectionPublicDto>(Section);
         }
 
 
         // POST: SectionController/Create
-        [HttpPost("/Sections/")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult<Section>> Create(SectionCreateDto dto)
+        [HttpPost("/sections/")]
+        
+        public async Task<ActionResult<SectionPublicDto>> Create([FromBody] SectionCreateDto dto)
         {
             try
             {
-                Section Section = _sectionService.create(dto);
-                return CreatedAtAction(nameof(findById), Section.Id.ToString());
+                SectionPublicDto Section = _sectionService.create(dto);
+                return CreatedAtAction(nameof(Create), Section);
             }
             catch
             {
@@ -58,14 +60,13 @@ namespace RESTFull.API.Controllers
         }
 
         // POST: SectionController/Edit/5
-        [HttpPut("/Sections/{id}")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult<Section>> Edit(String id, SectionUpdateDto dto)
+        [HttpPut("/sections/{id}")]
+        public async Task<ActionResult<SectionPublicDto>> Edit(String id, [FromBody] SectionUpdateDto dto)
         {
             try
             {
-                Section Section = _sectionService.update(dto);
-                return CreatedAtAction(nameof(findById), Section.Id.ToString());
+                SectionPublicDto Section = _sectionService.update(dto);
+                return CreatedAtAction(nameof(Edit), Section);
             }
             catch
             {
@@ -74,11 +75,11 @@ namespace RESTFull.API.Controllers
         }
 
         // Delete: SectionController/Delete/5
-        [HttpDelete("/Sections/{id}")]
+        [HttpDelete("/sections/{id}")]
         public ActionResult Delete(String id)
         {
             _sectionService.delete(Guid.Parse(id));
-            return CreatedAtAction(nameof(findAll), _sectionService.findAll());
+            return CreatedAtAction(nameof(Delete), String.Format("Section '{0}' was deleted!",id));
         }
     }
 }

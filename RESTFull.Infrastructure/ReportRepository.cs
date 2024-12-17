@@ -3,6 +3,7 @@ using RESTFull.Service.gateway;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Collections.Specialized.BitVector32;
@@ -52,13 +53,18 @@ namespace RESTFull.Infrastructure
 
         public Report Update(Report model)
         {
-            var curModel = Context.Set<Report>().FirstOrDefault(m => m.Id == model.Id);
+            var curModel = Context.Set<Report>().Find(model.Id);
             if (curModel != null)
             {
-                var toUpdate = model;
-                Context.Update(toUpdate);
+                curModel.title = model.title;
+                curModel.authors = model.authors;
+                curModel.section = model.section;
+                curModel.annotation = model.annotation;
+                curModel.presentationTime = model.presentationTime;
+
+                Context.Update(curModel);
                 Context.SaveChanges();
-                return toUpdate;
+                return curModel;
             }
             return null;
 

@@ -10,10 +10,10 @@ namespace RESTFull.Domain
 {
     public interface IConferenceService
     {
-        public Conference findById(Guid id);
-        public List<Conference> findAll();
-        public Conference create(ConferenceCreateDto createDto);
-        public Conference update(ConferenceUpdateDto updateDto);
+        public ConferencePublicDto findById(Guid id);
+        public List<ConferencePublicDto> findAll();
+        public ConferencePublicDto create(ConferenceCreateDto createDto);
+        public ConferencePublicDto update(ConferenceUpdateDto updateDto);
         public void delete(Guid id);
 
         }

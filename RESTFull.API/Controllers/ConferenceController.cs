@@ -32,45 +32,46 @@ namespace RESTFull.API.Controllers
 
         // GET: ConferenceController
         [HttpGet("/")]
-        public ActionResult<List<Conference>> findAll()
+        public ActionResult<List<ConferencePublicDto>> findAll()
         {
-            List<Conference> conferences = _conferenceService.findAll();
-            return new ActionResult<List<Conference>>(conferences);
+            List<ConferencePublicDto> conferences = _conferenceService.findAll();
+            return new ActionResult<List<ConferencePublicDto>>(conferences);
         }
 
         // GET: ConferenceController/{id}
         [HttpGet("/{id}")]
-        public async Task<ActionResult<Conference>> findById(String id)
+        public async Task<ActionResult<ConferencePublicDto>> findById(String id)
         {
 
-            Conference conference = _conferenceService.findById(Guid.Parse(id));
-            return new ActionResult<Conference>(conference);
+            var conference = _conferenceService.findById(Guid.Parse(id));
+            return new ActionResult<ConferencePublicDto>(conference);
         }
   
 
         // POST: ConferenceController/Create
         [HttpPost("/")]
-        public async Task<ActionResult<Conference>> Create(ConferenceCreateDto dto)
+        public async Task<ActionResult> Create(ConferenceCreateDto dto)
         {
             try
             {
-                Conference conference = _conferenceService.create(dto);
+                
+                var conference = _conferenceService.create(dto);
                 return CreatedAtAction(nameof(Create), conference);
             }
-            catch
-            {
-                return View();
+            catch(Exception ex) {
+            
+                return View(ex.Message);
             }
         }
 
         // POST: ConferenceController/Edit/5
         [HttpPut("/{id}")]
-        public async Task<ActionResult<Conference>> Edit(String id, ConferenceUpdateDto dto)
+        public async Task<ActionResult> Edit(String id, ConferenceUpdateDto dto)
         {
             try
             {
-                Conference conference = _conferenceService.update(dto);
-                return CreatedAtAction(nameof(findById), conference.Id.ToString());
+                var conference = _conferenceService.update(dto);
+                return CreatedAtAction(nameof(Edit), conference);
             }
             catch
             {
@@ -83,7 +84,7 @@ namespace RESTFull.API.Controllers
         public ActionResult Delete(String id)
         {
             _conferenceService.delete(Guid.Parse(id));
-            return CreatedAtAction(nameof(findAll), _conferenceService.findAll());
+            return CreatedAtAction(nameof(Delete), String.Format("Conference '{0}' was deleted!",id));
         }
 
     }

@@ -52,13 +52,19 @@ namespace RESTFull.Infrastructure
 
         public Participant Update(Participant model)
         {
-            var curModel = Context.Set<Participant>().FirstOrDefault(m => m.Id == model.Id);
+            var curModel = Context.Set<Participant>().Find(model.Id);
             if (curModel != null)
             {
-                var toUpdate = model;
-                Context.Update(toUpdate);
+                curModel.name = model.name;
+                curModel.role = model.role;
+                curModel.contactInfo = model.contactInfo;
+                curModel.organization = model.organization;
+                curModel.conferences = model.conferences;
+                curModel.reports = model.reports;
+
+                Context.Update(curModel);
                 Context.SaveChanges();
-                return toUpdate;
+                return curModel;
             }
             return null;
 
