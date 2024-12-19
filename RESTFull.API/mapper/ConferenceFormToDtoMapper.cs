@@ -42,8 +42,8 @@ namespace RESTFull.API.mapper
             String desctiption = collection["desctiption"];
             DateTime startDate = DateTime.Parse(collection["startDate"]);
             DateTime endDate = DateTime.Parse(collection["endDate"]);
-            List<String> sect = new List<string>();
-            List<String> part = new List<string>();
+            List<Guid> sect = new List<Guid>();
+            List<Guid> part = new List<Guid>();
 
 
             ConferenceUpdateDto conference = new ConferenceUpdateDto(

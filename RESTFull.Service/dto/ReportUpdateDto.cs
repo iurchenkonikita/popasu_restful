@@ -21,15 +21,15 @@ namespace RESTFull.Service.dto
         public String annotation { get; }
 
         [MinLength(1, ErrorMessage = "Report's authors must to contains no less than 1 author!")]
-        public List<String> authors { get; }
+        public List<Guid> authors { get; }
 
         [Required(ErrorMessage = "Report's presintation time must be specified!")]
         public DateTime presentationTime { get; }
 
-        [MinLength(1, ErrorMessage = "Report's title can't be empty!")]
-        public String section { get; }
+        [Required]
+        public Guid section { get; }
 
-        public ReportUpdateDto(Guid id, string title, string annotation, List<String> authors, DateTime presentationTime, String section)
+        public ReportUpdateDto(Guid id, string title, string annotation, List<Guid> authors, DateTime presentationTime, Guid section)
         {
             this.id = id;
             this.title = title;

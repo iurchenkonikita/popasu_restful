@@ -50,7 +50,7 @@ namespace RESTFull.API.Controllers
 
         // POST: ConferenceController/Create
         [HttpPost("/")]
-        public async Task<ActionResult> Create(ConferenceCreateDto dto)
+        public async Task<ActionResult> Create([FromBody] ConferenceCreateDto dto)
         {
             try
             {
@@ -66,12 +66,16 @@ namespace RESTFull.API.Controllers
 
         // POST: ConferenceController/Edit/5
         [HttpPut("/{id}")]
-        public async Task<ActionResult> Edit(String id, ConferenceUpdateDto dto)
+        public async Task<ActionResult> Edit(String id, [FromBody] ConferenceUpdateDto dto)
         {
             try
             {
                 var conference = _conferenceService.update(dto);
                 return CreatedAtAction(nameof(Edit), conference);
+            }
+            catch(KeyNotFoundException e) 
+            {
+                return BadRequest(e.Message);
             }
             catch
             {

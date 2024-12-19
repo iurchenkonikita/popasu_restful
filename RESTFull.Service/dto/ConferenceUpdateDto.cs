@@ -32,10 +32,10 @@ namespace RESTFull.Service.dto
         public String location { get; }
         public String description { get; }
 
-        public List<String> sections { get; }
-        public List<String> participants { get; }
+        public List<Guid> sections { get; }
+        public List<Guid> participants { get; }
 
-        public ConferenceUpdateDto(Guid id, string title, string status, DateTime startDate, DateTime endDate, string location, string description, List<String> sections, List<String> participants)
+        public ConferenceUpdateDto(Guid id, string title, string status, DateTime startDate, DateTime endDate, string location, string description, List<Guid> sections, List<Guid> participants)
         {
             this.id = id;
             this.title = title;

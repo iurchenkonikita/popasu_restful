@@ -74,6 +74,9 @@ namespace RESTFull.Service.impl
         {
             Participant  participant = _mapper.Map(updateDto);
 
+            participant.conferences = _conferenceRepository.GetById(updateDto.conferences);
+            participant.reports = _reportRepository.GetById(updateDto.reports);
+
             participant = _participantRepository.Update(participant);
 
             List<Report> reports = _reportRepository.getAllByParticipant(participant.Id);

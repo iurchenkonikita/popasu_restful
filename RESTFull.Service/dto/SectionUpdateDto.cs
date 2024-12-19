@@ -19,14 +19,14 @@ namespace RESTFull.Service.dto
         [MinLength(1, ErrorMessage = "Section's description can't be empty!")]
         public String description { get; }
 
-        [MinLength(1, ErrorMessage = "Section's conference can't be empty!")]
-        public String conference { get; }
+        [Required( ErrorMessage = "Section's conference can't be empty!")]
+        public Guid conference { get; }
 
         [Required(ErrorMessage = "Section's time must be specified!")]
         public DateTime time { get; }
         public List<Guid> reports { get; }
 
-        public SectionUpdateDto(Guid id, string title, string description, string conference, DateTime time, List<Guid> reports)
+        public SectionUpdateDto(Guid id, string title, string description, Guid conference, DateTime time, List<Guid> reports)
         {
             this.id = id;
             this.title = title;

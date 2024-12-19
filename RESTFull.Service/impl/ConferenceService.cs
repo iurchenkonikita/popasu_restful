@@ -84,6 +84,9 @@ namespace RESTFull.Service
         public ConferencePublicDto update(ConferenceUpdateDto updateDto)
         {
             Conference conference = _mapper.map(updateDto);
+            conference.participants = _participantRepository.GetById(updateDto.participants);
+            conference.sections = _sectionRepository.GetById(updateDto.sections);
+
             conference= _conferenceRepository.Update(conference);
 
             return _mapper.map(conference);

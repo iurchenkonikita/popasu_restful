@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using RESTFull.API.mapper;
 using RESTFull.Domain;
 using RESTFull.Service;
@@ -53,9 +54,9 @@ namespace RESTFull.API.Controllers
                 SectionPublicDto Section = _sectionService.create(dto);
                 return CreatedAtAction(nameof(Create), Section);
             }
-            catch
+            catch (Exception e)
             {
-                return View();
+                return BadRequest(e.Message);
             }
         }
 
@@ -68,9 +69,14 @@ namespace RESTFull.API.Controllers
                 SectionPublicDto Section = _sectionService.update(dto);
                 return CreatedAtAction(nameof(Edit), Section);
             }
-            catch
+            catch(FormatException e)
             {
-                return View();
+                return BadRequest("Incorrect format of 'guid' to reference entity");
+
+            } catch (Exception e)
+            {
+                return BadRequest(e.Message);
+
             }
         }
 

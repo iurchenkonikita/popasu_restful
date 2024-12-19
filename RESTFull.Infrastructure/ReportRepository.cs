@@ -1,4 +1,5 @@
-﻿using RESTFull.Domain;
+﻿using Microsoft.EntityFrameworkCore;
+using RESTFull.Domain;
 using RESTFull.Service.gateway;
 using System;
 using System.Collections.Generic;
@@ -20,69 +21,93 @@ namespace RESTFull.Infrastructure
         }
         public Report Create(Report model)
         {
-            Context.Set<Report>().Add(model);
+            Context.Reports.Add(model);
             Context.SaveChanges();
             return model;
         }
 
         public void Delete(Guid id)
         {
-            var toDelete = Context.Set<Report>().FirstOrDefault(m => m.Id == id);
+            var toDelete = Context.Reports.FirstOrDefault(m => m.Id == id);
             if (toDelete != null)
             {
            
-                Context.Set<Report>().Remove(toDelete);
+                Context.Reports.Remove(toDelete);
                 Context.SaveChanges();
             }
         }
 
         public List<Report> GetAll()
         {
-            return Context.Set<Report>().ToList();
+            return Context.Reports
+                .Include(r=>r.section)
+                .Include(r=>r.authors) 
+                .ToList();
         }
 
         public Report GetById(Guid id)
         {
-            return Context.Set<Report>().FirstOrDefault(m => m.Id == id);
+            return Context.Reports
+                .Include(r => r.section)
+                .Include(r => r.authors)
+                .FirstOrDefault(m => m.Id == id);
         }
 
         public List<Report> GetById(List<Guid> ids)
         {
-            return Context.Set<Report>().Where(m => ids.Contains(m.Id)).ToList();
+            return Context.Reports
+                .Include(r => r.section)
+                .Include(r => r.authors)
+                .Where(m => ids.Contains(m.Id))
+                .ToList();
         }
 
         public Report Update(Report model)
         {
-            var curModel = Context.Set<Report>().Find(model.Id);
-            if (curModel != null)
-            {
-                curModel.title = model.title;
-                curModel.authors = model.authors;
-                curModel.section = model.section;
-                curModel.annotation = model.annotation;
-                curModel.presentationTime = model.presentationTime;
+            var curModel = Context.Reports
+                .Include(r=>r.authors)
+                .Include(r=>r.section)
+                .FirstOrDefault(c => c.Id == model.Id);
 
-                Context.Update(curModel);
-                Context.SaveChanges();
-                return curModel;
-            }
-            return null;
+            if (curModel == null)
+                throw new KeyNotFoundException(String.Format("Conference not found! ", model.Id));
+
+
+            Context.Entry(curModel).CurrentValues.SetValues(model);
+
+            curModel.section = Context.Sections.Where(s => model.section.Equals(s)).First();
+            curModel.authors = Context.Participants.Where(s => model.authors.Contains(s)).ToList();
+
+            Context.SaveChanges();
+            return curModel;
+           
 
         }
 
         public Report Get(Guid id)
         {
-            return Context.Set<Report>().FirstOrDefault(m => m.Id == id);
+            return Context.Reports
+                .Include(r => r.section)
+                .Include(r => r.authors)
+                .FirstOrDefault(m => m.Id == id);
         }
 
         public List<Report> getAllBySection(Guid sectionId)
         {
-            return Context.Set<Report>().Where(r=>r.section.Id == sectionId).ToList();
+            return Context.Reports
+                .Include(r => r.section)
+                .Include(r => r.authors)
+                .Where(r=>r.section.Id == sectionId)
+                .ToList();
         }
 
         public List<Report> getAllByParticipant(Guid participantId)
         {
-            return Context.Set<Report>().Where(r => r.authors.Any(a=>a.Id==participantId)).ToList();
+            return Context.Reports
+                .Include(r => r.section)
+                .Include(r => r.authors)
+                .Where(r => r.authors.Any(a=>a.Id==participantId))
+                .ToList();
         }
     }
 }

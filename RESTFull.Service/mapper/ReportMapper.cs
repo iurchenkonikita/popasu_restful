@@ -24,7 +24,7 @@ namespace RESTFull.Service.mapper
             Report report = new Report();
 
             report.title = createDto.title;
-            report.section = _sectionReporitory.GetById(Guid.Parse(createDto.section));
+            report.section = _sectionReporitory.GetById(createDto.section);
             report.annotation = createDto.annotation;
             report.presentationTime = createDto.presentationTime;
 
@@ -37,7 +37,7 @@ namespace RESTFull.Service.mapper
 
             report.Id = updateDto.id;
             report.title = updateDto.title;
-            report.section = _sectionReporitory.GetById(Guid.Parse(updateDto.section));
+            report.section = _sectionReporitory.GetById(updateDto.section);
             report.annotation = updateDto.annotation;
             report.presentationTime = updateDto.presentationTime;
 

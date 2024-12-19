@@ -1,4 +1,5 @@
-﻿using RESTFull.Domain;
+﻿using Microsoft.EntityFrameworkCore;
+using RESTFull.Domain;
 using RESTFull.Service.gateway;
 using System;
 using System.Collections.Generic;
@@ -19,65 +20,88 @@ namespace RESTFull.Infrastructure
         }
         public Participant Create(Participant model)
         {
-            Context.Set<Participant>().Add(model);
+            Context.Participants.Add(model);
             Context.SaveChanges();
             return model;
         }
 
         public void Delete(Guid id)
         {
-            var toDelete = Context.Set<Participant>().FirstOrDefault(m => m.Id == id);
+            var toDelete = Context.Participants.FirstOrDefault(m => m.Id == id);
             if (toDelete != null)
             {
 
-                Context.Set<Participant>().Remove(toDelete);
+                Context.Participants.Remove(toDelete);
                 Context.SaveChanges();
             }
         }
 
         public List<Participant> GetAll()
         {
-            return Context.Set<Participant>().ToList();
+            return Context.Participants
+                .Include(p => p.conferences)
+                .Include(p => p.reports)
+                .ToList();
         }
 
         public Participant GetById(Guid id)
         {
-            return Context.Set<Participant>().FirstOrDefault(m => m.Id == id);
+            return Context.Participants
+                .Include(p => p.conferences)
+                .Include(p => p.reports)
+                .FirstOrDefault(m => m.Id == id);
         }
 
         public List<Participant> GetById(List<Guid> ids)
         {
-            return Context.Set<Participant>().Where(m => ids.Contains(m.Id)).ToList();
+            return Context.Participants
+                .Include(p => p.conferences)
+                .Include(p => p.reports)
+                .Where(m => ids.Contains(m.Id)).ToList();
         }
 
         public Participant Update(Participant model)
         {
-            var curModel = Context.Set<Participant>().Find(model.Id);
-            if (curModel != null)
-            {
-                curModel.name = model.name;
-                curModel.role = model.role;
-                curModel.contactInfo = model.contactInfo;
-                curModel.organization = model.organization;
-                curModel.conferences = model.conferences;
-                curModel.reports = model.reports;
+            var curModel = Context.Participants
+                .Include(p => p.conferences)
+                .Include(p => p.reports)
+                .FirstOrDefault(c => c.Id == model.Id);
 
-                Context.Update(curModel);
-                Context.SaveChanges();
-                return curModel;
+            if (curModel == null)
+            {
+                throw new KeyNotFoundException("Participant not found");
             }
-            return null;
+
+
+            Context.Entry(curModel).CurrentValues.SetValues(model);
+
+
+            curModel.conferences = Context.Conferences.Where(c => model.conferences.Contains(c)).ToList();
+
+            curModel.reports = Context.Reports.Where(r => model.reports.Contains(r)).ToList();
+
+            Context.SaveChanges();
+            return curModel;
+            
 
         }
 
         public List<Participant> GetAllByReport(Guid reportId)
         {
-            return Context.Set<Participant>().Where(c => c.reports.Any(p => p.Id == reportId)).ToList();
+            return Context.Participants
+                .Include(p => p.conferences)
+                .Include(p => p.reports)
+                .Where(c => c.reports.Any(p => p.Id == reportId))
+                .ToList();
         }
 
         public List<Participant> GetAllByConferenceId(Guid conferenceId)
         {
-            return Context.Set<Participant>().Where(c => c.conferences.Any(p => p.Id == conferenceId)).ToList();
+            return Context.Participants
+                .Include(p => p.conferences)
+                .Include(p => p.reports)
+                .Where(c => c.conferences.Any(p => p.Id == conferenceId))
+                .ToList();
             
         }
     }

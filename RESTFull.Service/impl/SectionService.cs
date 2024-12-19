@@ -28,8 +28,8 @@ namespace RESTFull.Service.impl
         public SectionPublicDto create(SectionCreateDto createDto)
         {
             Section section = _mapper.map(createDto);
-            Guid conferenceId = Guid.Parse(createDto.conference);
-            section.conference = _conferenceRepository.GetById(conferenceId);
+
+            section.conference = _conferenceRepository.GetById(createDto.conference);
             section.reports = _reportRepository.getAllBySection(section.Id);
 
             section = _sectionReporitory.Create(section);
@@ -70,12 +70,13 @@ namespace RESTFull.Service.impl
         public SectionPublicDto update(SectionUpdateDto updateDto)
         {
             Section section = _mapper.map(updateDto);
-            section.conference = _conferenceRepository.GetById(Guid.Parse(updateDto.conference));
-            section.reports = _reportRepository.getAllBySection(section.Id);
+
+            section.conference = _conferenceRepository.GetById(updateDto.conference);
+            section.reports = _reportRepository.GetById(updateDto.reports);
 
             section = _sectionReporitory.Update(section);
 
-            section.conference = _conferenceRepository.GetById(Guid.Parse(updateDto.conference));
+            section.conference = _conferenceRepository.GetById(updateDto.conference);
             section.reports = _reportRepository.getAllBySection(section.Id);
 
             return _mapper.map(section);

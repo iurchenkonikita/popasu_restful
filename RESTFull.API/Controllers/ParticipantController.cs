@@ -43,31 +43,31 @@ namespace RESTFull.API.Controllers
 
         // POST: ParticipantController/Create
         [HttpPost("/Participants/")]
-        public async Task<ActionResult<ParticipantPublicDto>> Create(ParticipantCreateDto dto)
+        public async Task<ActionResult<ParticipantPublicDto>> Create([FromBody] ParticipantCreateDto dto)
         {
             try
             {
                 ParticipantPublicDto Participant = _service.create(dto);
                 return CreatedAtAction(nameof(Create), Participant);
             }
-            catch
+            catch (Exception e)
             {
-                return View();
+                return BadRequest(e.Message);
             }
         }
 
         // POST: ParticipantController/Edit/5
         [HttpPut("/Participants/{id}")]
-        public async Task<ActionResult<ParticipantPublicDto>> Edit(String id, ParticipantUpdateDto dto)
+        public async Task<ActionResult<ParticipantPublicDto>> Edit(String id,[FromBody] ParticipantUpdateDto dto)
         {
             try
             {
                 ParticipantPublicDto Participant = _service.update(dto);
                 return CreatedAtAction(nameof(Edit), Participant);
             }
-            catch
+            catch(Exception e)
             {
-                return View();
+                return BadRequest(e.Message);
             }
         }
 
@@ -76,7 +76,7 @@ namespace RESTFull.API.Controllers
         public ActionResult Delete(String id)
         {
             _service.delete(Guid.Parse(id));
-            return CreatedAtAction(nameof(findAll), _service.findAll());
+            return CreatedAtAction(nameof(Delete), String.Format("Participant '{0}' was deleted!", id));
         }
     }
 }

@@ -14,22 +14,28 @@ namespace RESTFull.Service.impl
     {
         private readonly IReportRepository _reportRepository;
         private readonly IParticipantRepository _participantRepository;
+        private ISectionReporitory _sectionReporitory;
+
         private readonly ReportMapper _mapper;
 
-        public ReportService(IReportRepository reportRepository, IParticipantRepository participantRepository, ReportMapper mapper)
+        public ReportService(IReportRepository reportRepository, IParticipantRepository participantRepository, ISectionReporitory sectionReporitory, ReportMapper mapper)
         {
-            _reportRepository = reportRepository ?? throw new ArgumentNullException(nameof(reportRepository));
-            _participantRepository = participantRepository ?? throw new ArgumentNullException(nameof(participantRepository));
-            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _reportRepository = reportRepository;
+            _participantRepository = participantRepository;
+            _sectionReporitory = sectionReporitory;
+            _mapper = mapper;
         }
 
         public ReportPublicDto create(ReportCreateDto createDto)
         {
             Report report = _mapper.Map(createDto);
 
+            report.authors = _participantRepository.GetById(createDto.authors);
+            report.section = _sectionReporitory.GetById(createDto.section);
+
             report = _reportRepository.Create(report);
 
-            List<Participant> authors = _participantRepository.GetById(createDto.authors.Select(i=>Guid.Parse(i)).ToList());
+            List<Participant> authors = _participantRepository.GetById(createDto.authors);
             report.authors = authors;
 
             return _mapper.map(report);
@@ -69,9 +75,13 @@ namespace RESTFull.Service.impl
         {
             Report report = _mapper.Map(updateDto);
 
-            report = _reportRepository.Create(report);
+            report.authors = _participantRepository.GetById(updateDto.authors);
+            report.section = _sectionReporitory.GetById(updateDto.section);
 
-            List<Participant> authors = _participantRepository.GetById(updateDto.authors.Select(i => Guid.Parse(i)).ToList());
+
+            report = _reportRepository.Update(report);
+
+            List<Participant> authors = _participantRepository.GetById(updateDto.authors);
             report.authors = authors;
 
             return _mapper.map(report);

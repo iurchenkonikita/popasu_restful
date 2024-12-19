@@ -9,30 +9,30 @@ namespace RESTFull.API.mapper
         {
         }
 
-        public ReportCreateDto mapToCreateDto(IFormCollection collection)
-        {
-            ReportCreateDto reportDto = new ReportCreateDto(
-                collection["title"],
-                collection["annotation"],
-                new List<string>(),
-                DateTime.Parse(collection["presentationTime"]),
-                collection["section"]
-                );
+        //public ReportCreateDto mapToCreateDto(IFormCollection collection)
+        //{
+        //    ReportCreateDto reportDto = new ReportCreateDto(
+        //        collection["title"],
+        //        collection["annotation"],
+        //        new List<string>(),
+        //        DateTime.Parse(collection["presentationTime"]),
+        //        collection["section"]
+        //        );
 
-            return reportDto;
-        }
-        public ReportUpdateDto mapToUpdateDto(IFormCollection collection)
-        {
-            ReportUpdateDto conference = new ReportUpdateDto(
-                Guid.Parse(collection["id"].ToString()),
-                collection["title"],
-                collection["annotation"],
-                new List<string>(),
-                DateTime.Parse(collection["presentationTime"]),
-                collection["section"]
-            );
+        //    return reportDto;
+        //}
+        //public ReportUpdateDto mapToUpdateDto(IFormCollection collection)
+        //{
+        //    ReportUpdateDto conference = new ReportUpdateDto(
+        //        Guid.Parse(collection["id"].ToString()),
+        //        collection["title"],
+        //        collection["annotation"],
+        //        new List<string>(),
+        //        DateTime.Parse(collection["presentationTime"]),
+        //        collection["section"]
+        //    );
 
-            return conference;
-        }
+        //    return conference;
+        //}
     }
 }
