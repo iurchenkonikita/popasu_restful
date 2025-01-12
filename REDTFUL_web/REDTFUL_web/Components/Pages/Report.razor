@@ -1,0 +1,51 @@
+﻿@page "/reports/{id:guid}"
+@using RESTFull.Service.dto
+@inject HttpClient httpClient
+<h3>Report</h3>
+
+
+<ul>
+    <p>@report?.title</p>
+    <p>@report?.annotation</p>
+    <p>@report?.presentationTime</p>
+    <a href="/sections/@report?.section.Id">&emsp;@report?.section.title</a>
+
+    <h3>Authors:</h3>
+    <div>
+        @if (report != null && report?.authors != null && report.authors.Count > 0)
+        {
+            @foreach (var author in report.authors)
+            {
+                <a href="/participants/@author.id">&emsp;@author.name</a>
+                <br />
+            }
+        }
+    </div>
+
+    <a href="/reports/@id/e">Edit</a>
+
+</ul>
+
+
+
+@code {
+    [Parameter]
+    public Guid id { get; set; }
+    private ReportPublicDto report;
+
+
+    async Task GetAll()
+    {
+        Console.WriteLine(id);
+        var response = await httpClient.GetFromJsonAsync<ReportPublicDto>("/reports/" + id);
+        
+        Console.Write(response.ToString());
+        report = response;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetAll();
+    }
+
+}

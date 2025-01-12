@@ -10,7 +10,7 @@ namespace RESTFull.Service.dto
     
     public class ConferencePublicDto
     {
-        public String id {  get; set; }
+        public Guid id {  get; set; }
         public String title { get; set; }
         public String status { get; set; }
         public DateTime startDate { get; set; }

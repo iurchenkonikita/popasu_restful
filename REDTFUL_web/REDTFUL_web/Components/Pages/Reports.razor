@@ -1,0 +1,33 @@
+﻿@page "/reports"
+@using RESTFull.Service.dto
+@inject HttpClient httpClient
+<h3>Reports</h3>
+
+<ul>
+    @foreach (var report in reports)
+    {
+        <li><a href="/reports/@report.Id">@report.title</a></li>
+    }
+
+    <a href="/reports/add">Add</a>
+</ul>
+
+
+
+@code {
+    private List<ReportPublicDto> reports = new List<ReportPublicDto>();
+
+
+    async Task GetAll()
+    {
+        var response = await httpClient.GetFromJsonAsync<List<ReportPublicDto>>("/reports");
+        Console.Write(response.ToString());
+        reports.AddRange(response);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetAll();
+    }
+
+}

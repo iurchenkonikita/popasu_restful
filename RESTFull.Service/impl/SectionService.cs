@@ -63,6 +63,8 @@ namespace RESTFull.Service.impl
 
             section.reports = _reportRepository.getAllBySection(section.Id);
 
+            //section.conference = _conferenceRepository.GetById(section.conference);
+            section.reports = _reportRepository.getAllBySection(section.Id);
 
             return _mapper.map(section);
         }

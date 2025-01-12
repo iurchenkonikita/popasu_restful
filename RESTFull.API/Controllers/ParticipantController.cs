@@ -24,7 +24,7 @@ namespace RESTFull.API.Controllers
 
 
         // GET: ParticipantController
-        [HttpGet("/Participants/")]
+        [HttpGet("/participants/")]
         public ActionResult<List<ParticipantPublicDto>> findAll()
         {
             List<ParticipantPublicDto> Participants = _service.findAll();
@@ -32,7 +32,7 @@ namespace RESTFull.API.Controllers
         }
 
         // GET: ParticipantController/{id}
-        [HttpGet("/Participants/{id}")]
+        [HttpGet("/participants/{id}")]
         public async Task<ActionResult<ParticipantPublicDto>> findById(String id)
         {
 
@@ -42,7 +42,7 @@ namespace RESTFull.API.Controllers
 
 
         // POST: ParticipantController/Create
-        [HttpPost("/Participants/")]
+        [HttpPost("/participants/")]
         public async Task<ActionResult<ParticipantPublicDto>> Create([FromBody] ParticipantCreateDto dto)
         {
             try
@@ -57,7 +57,7 @@ namespace RESTFull.API.Controllers
         }
 
         // POST: ParticipantController/Edit/5
-        [HttpPut("/Participants/{id}")]
+        [HttpPut("/participants/{id}")]
         public async Task<ActionResult<ParticipantPublicDto>> Edit(String id,[FromBody] ParticipantUpdateDto dto)
         {
             try
@@ -72,7 +72,7 @@ namespace RESTFull.API.Controllers
         }
 
         // Delete: ParticipantController/Delete/5
-        [HttpDelete("/Participants/{id}")]
+        [HttpDelete("/participants/{id}")]
         public ActionResult Delete(String id)
         {
             _service.delete(Guid.Parse(id));

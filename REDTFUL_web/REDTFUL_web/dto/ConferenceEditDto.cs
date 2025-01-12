@@ -1,14 +1,9 @@
-﻿using RESTFull.Domain;
-using System;
-using System.Collections.Generic;
+﻿using RESTFull.Service.dto;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace RESTFull.Service.dto
+namespace REDTFUL_web.dto
 {
-    public class ConferenceUpdateDto
+    public class ConferenceEditDto
     {
         [Required]
         public String id { get; set; }
@@ -32,21 +27,32 @@ namespace RESTFull.Service.dto
         public String location { get; set; }
         public String description { get; set; }
 
-        public List<Guid> sections { get; set; }
-        public List<Guid> participants { get; set; }
 
-        public ConferenceUpdateDto(String id, string title, string status, DateTime startDate, DateTime endDate, string location, string description, List<Guid> sections, List<Guid> participants)
+
+        public ConferenceEditDto(ConferencePublicDto dto)
         {
-            this.id = id;
-            this.title = title;
-            this.status = status;
-            this.startDate = startDate;
-            this.endDate = endDate;
-            this.location = location;
-            this.description = description;
-            this.sections = sections;
-            this.participants = participants;
+            this.id = dto.id.ToString();                     
+            this.title = dto.title;               
+            this.status = dto.status;             
+            this.startDate = dto.startDate;       
+            this.endDate = dto.endDate;           
+            this.location = dto.location;         
+            this.description = dto.description;   
         }
-        public ConferenceUpdateDto() { }
+        public ConferenceEditDto() { }
+
+        public ConferenceUpdateDto getUpdateDto()
+        {
+            ConferenceUpdateDto conferenceUpdate = new ConferenceUpdateDto();
+            conferenceUpdate.id = id;
+            conferenceUpdate.title = title;
+            conferenceUpdate.status = status;
+            conferenceUpdate.startDate = startDate;
+            conferenceUpdate.endDate = endDate;
+            conferenceUpdate.location = location;
+            conferenceUpdate.description = description;
+
+            return conferenceUpdate;
+        }
     }
 }

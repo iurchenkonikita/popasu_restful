@@ -1,0 +1,32 @@
+﻿@page "/participants"
+@using RESTFull.Service.dto
+@inject HttpClient httpClient
+<h3>Participants</h3>
+
+<ul>
+    @foreach (var participant in participants)
+    {
+        <li><a href="/participants/@participant.id">@participant.name</a></li>
+    }
+</ul>
+
+<a href="/participants/add">Add</a>
+
+
+@code {
+    private List<ParticipantPublicDto> participants = new List<ParticipantPublicDto>();
+
+
+    async Task GetAll()
+    {
+        var response = await httpClient.GetFromJsonAsync<List<ParticipantPublicDto>>("/participants/");
+        Console.Write(response.ToString());
+        participants.AddRange(response);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetAll();
+    }
+
+}

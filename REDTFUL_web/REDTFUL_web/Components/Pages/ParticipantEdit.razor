@@ -1,0 +1,157 @@
+﻿@page "/participants/add"
+@page "/participants/{id:guid}/e"
+@using REDTFUL_web.dto
+@using RESTFull.Service.dto
+@using RESTFull.Service.mapper
+@inject HttpClient httpClient
+@inject NavigationManager navigationManager
+
+
+@if (model != null)
+{
+    <EditForm Model="@model" OnSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-group">
+            <label for="Id">Id:</label>
+            <InputText id="Id" class="form-control" @bind-Value="model.id" />
+        </div>
+
+        <div class="form-group">
+            <label for="Name">Name:</label>
+            <InputText id="Name" class="form-control" @bind-Value="model.name" />
+        
+        </div>
+
+        <div class="form-group">
+            <label for="Role">Role:</label>
+            <InputText id="Role" class="form-control" @bind-Value="model.role" />
+
+        </div>
+
+        <div class="form-group">
+            <label for="ContactInfo">ContactInfo:</label>
+            <InputText id="ContactInfo" class="form-control" @bind-Value="model.contactInfo" />
+
+        </div>
+
+        <div class="form-group">
+            <label for="Organization">Organization:</label>
+            <InputText id="Organization" class="form-control" @bind-Value="model.organization" />
+
+        </div>
+
+
+        <button type="submit" class="btn btn-primary" onclick="HandleValidSubmit">Save</button>
+        <button type="button" class="btn btn-secondary" @onclick="Cancel">Cancel</button>
+    </EditForm>
+}
+else if (loading)
+{
+    <p>Loading...</p>
+}
+else if (error != null)
+{
+    <p class="text-danger">@error</p>
+}
+
+
+@code {
+
+
+    public ParticipantEditDto? model { get; set; }
+    private ParticipantPublicDto? publicDto { get; set; }
+    private bool loading = true;
+    private string? error;
+    protected string Title = "Add";
+    private readonly string path = "/participants/";
+
+    [Parameter]
+    public Guid Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        try
+        {
+            if (Id!=Guid.Empty)
+            {
+                Title = "Edit";
+
+                httpClient.Timeout = new TimeSpan(100000000);
+                httpClient.DefaultRequestHeaders.Accept.Clear();
+                httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                var dto = await httpClient.GetFromJsonAsync<ParticipantPublicDto>(path + Id);
+
+                publicDto = dto;
+                model = new ParticipantEditDto(dto);
+            }
+            else
+            {
+                model = new ParticipantEditDto();
+            }
+        }
+        catch (Exception ex)
+        {
+            error = $"Failed to load data: {ex.Message}";
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        try
+        {
+
+            ParticipantUpdateDto ParticipantUpdateDto = model.getUpdateDto();
+            ParticipantUpdateDto.conferences = publicDto.conferences.Aggregate(new List<Guid>(), (t, s) => { t.Add(Guid.Parse(s.id)); return t; });
+            ParticipantUpdateDto.reports = publicDto.reports.Aggregate(new List<Guid>(), (t, s) => { t.Add(Guid.Parse(s.Id)); return t; });
+
+            if (model.id != null)
+            {
+
+                await httpClient.PutAsJsonAsync(path + model.id, ParticipantUpdateDto);
+            }
+            else
+            {
+                ParticipantPublicDto dto = await httpClient.PostAsJsonAsync(path, ParticipantUpdateDto).Result.Content.ReadFromJsonAsync<ParticipantPublicDto>();
+                model.id = dto.id.ToString();
+            }
+            navigationManager.NavigateTo(path + model.id);
+        }
+        catch (Exception ex)
+        {
+            error = $"Error while updating: {ex.Message}";
+        }
+    }
+
+
+
+    private void Cancel()
+    {
+        if (model.id != null)
+        {
+            navigationManager.NavigateTo(path + model.id);
+        }
+        else
+        {
+            navigationManager.NavigateTo(path);
+        }
+    }
+
+    private String getItem(List<Guid> list, int i)
+    {
+        return list[i].ToString();
+    }
+
+}
+
+

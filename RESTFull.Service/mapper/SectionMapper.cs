@@ -58,8 +58,8 @@ namespace RESTFull.Service.mapper
             result.description = section.description;
             result.time = section.time;
             result.title = section.title;
-            result.reports = section.reports.Aggregate(new List<String>(), (t, c) => { t.Add(c.Id.ToString()); return t; });
-            result.conference = section.conference.Id.ToString();
+            result.reports = section.reports.Aggregate(new List<Guid>(), (t, c) => { t.Add(c.Id); return t; });
+            result.conference = section.conference.Id;
 
             return result;
         }

@@ -1,0 +1,163 @@
+﻿@page "/conferences/add"
+@page "/conferences/{id:guid}/e"
+@using REDTFUL_web.dto
+@using RESTFull.Service.dto
+@using RESTFull.Service.mapper
+@inject HttpClient httpClient
+@inject NavigationManager navigationManager
+
+@if (model != null)
+{
+    <EditForm Model="@model" OnSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-group">
+            <label for="Id">Id:</label>
+            <InputText id="Id" class="form-control" @bind-Value="model.id" />
+        </div>
+
+        <div class="form-group">
+            <label for="Title">Title:</label>
+            <InputText id="Title" class="form-control" @bind-Value="model.title" />
+        
+        </div>
+
+        <div class="form-group">
+            <label for="Status">Status:</label>
+            <InputText id="Status" class="form-control" @bind-Value="model.status" />
+
+        </div>
+
+        <div class="form-group">
+            <label for="StartDate">Start Date:</label>
+            <InputDate id="StartDate" class="form-control" @bind-Value="model.startDate" />
+
+        </div>
+
+        <div class="form-group">
+            <label for="EndDate">End Date:</label>
+            <InputDate id="EndDate" class="form-control" @bind-Value="model.endDate" />
+
+        </div>
+
+        <div class="form-group">
+            <label for="Location">Location:</label>
+            <InputText id="Location" class="form-control" @bind-Value="model.location" />
+
+        </div>
+
+        <div class="form-group">
+            <label for="Description">Description:</label>
+            <InputText id="Description" class="form-control" @bind-Value="model.description" />
+
+        </div>
+
+
+        <button type="submit" class="btn btn-primary" onclick="HandleValidSubmit">Save</button>
+        <button type="button" class="btn btn-secondary" @onclick="Cancel">Cancel</button>
+    </EditForm>
+}
+else if (loading)
+{
+    <p>Loading...</p>
+}
+else if (error != null)
+{
+    <p class="text-danger">@error</p>
+}
+
+
+@code {
+
+    public ConferenceEditDto? model { get; set; }
+    private ConferencePublicDto? publicDto { get; set; }
+    private ExampleDto example = new();
+    private bool loading = true;
+    private string? error;
+    protected string Title = "Add";
+
+    [Parameter]
+    public Guid Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        try
+        {
+            if (Id != null)
+            {
+                Title = "Edit";
+
+                httpClient.Timeout = new TimeSpan(100000000);
+                httpClient.DefaultRequestHeaders.Accept.Clear();
+                httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                var dto = await httpClient.GetFromJsonAsync<ConferencePublicDto>("/" + Id);
+
+                publicDto = dto;
+                model = new ConferenceEditDto(dto);
+            } else
+            {
+                model = new ConferenceEditDto();
+            }
+        }
+        catch (Exception ex)
+        {
+            error = $"Failed to load data: {ex.Message}";
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        try
+        {
+
+            ConferenceUpdateDto conferenceUpdateDto = model.getUpdateDto();
+            conferenceUpdateDto.sections = publicDto.sections.Aggregate(new List<Guid>(), (t, s) => { t.Add(Guid.Parse(s.Id)); return t; });
+            conferenceUpdateDto.participants = publicDto.participants.Aggregate(new List<Guid>(), (t, s) => { t.Add(Guid.Parse(s.id)); return t; });
+            
+            if (model.id != null)
+            {
+
+                await httpClient.PutAsJsonAsync("/" + model.id, conferenceUpdateDto);
+            }
+            else
+            {
+                ConferencePublicDto dto = await httpClient.PostAsJsonAsync("/", conferenceUpdateDto).Result.Content.ReadFromJsonAsync<ConferencePublicDto>();
+                model.id = dto.id.ToString();
+            }
+            navigationManager.NavigateTo("/" + model.id);
+        }
+        catch (Exception ex)
+        {
+            error = $"Error while updating: {ex.Message}";
+        }
+    }
+    
+
+
+    private void Cancel()
+    {
+        if (model.id != null)
+        {
+            navigationManager.NavigateTo("/"+model.id);
+        }
+        else
+        {
+            navigationManager.NavigateTo("/");
+        }
+    }
+
+    private String getItem(List<Guid> list, int i)
+    {
+        return list[i].ToString();
+    }
+}

@@ -35,7 +35,7 @@ namespace RESTFull.API.mapper
         }
         public ConferenceUpdateDto mapToUpdateDto(IFormCollection collection)
         {
-            Guid id = Guid.Parse(collection["id"]);
+            String id = collection["id"];
             String title = collection["title"];
             String status = collection["status"];
             String location = collection["location"];

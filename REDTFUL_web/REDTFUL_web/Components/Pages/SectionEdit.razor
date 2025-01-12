@@ -1,0 +1,151 @@
+﻿@page "/sections/add"
+@page "/sections/{id:guid}/e"
+@using REDTFUL_web.dto
+@using RESTFull.Service.dto
+@using RESTFull.Service.mapper
+@inject HttpClient httpClient
+@inject NavigationManager navigationManager
+
+
+@if (model != null)
+{
+    <EditForm Model="@model" OnSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-group">
+            <label for="Id">Id:</label>
+            <InputText id="Id" class="form-control" @bind-Value="model.id" />
+        </div>
+
+        <div class="form-group">
+            <label for="Title">Title:</label>
+            <InputText id="Title" class="form-control" @bind-Value="model.title" />
+        
+        </div>
+
+        <div class="form-group">
+            <label for="Description">Description:</label>
+            <InputText id="Description" class="form-control" @bind-Value="model.description" />
+
+        </div>
+
+        <div class="form-group">
+            <label for="Conference">Conference:</label>
+            <InputText id="Conference" class="form-control" @bind-Value="model.conference" />
+
+        </div>
+
+        <div class="form-group">
+            <label for="Time">Time:</label>
+            <InputDate id="Time" class="form-control" @bind-Value="model.time" />
+
+        </div>
+
+
+        <button type="submit" class="btn btn-primary" onclick="HandleValidSubmit">Save</button>
+        <button type="button" class="btn btn-secondary" @onclick="Cancel">Cancel</button>
+    </EditForm>
+}
+else if (loading)
+{
+    <p>Loading...</p>
+}
+else if (error != null)
+{
+    <p class="text-danger">@error</p>
+}
+
+
+@code {
+
+
+    public SectionEditDto? model { get; set; }
+    private SectionPublicDto? publicDto { get; set; }
+    private bool loading = true;
+    private string? error;
+    protected string Title = "Add";
+    private readonly string path = "/sections/";
+
+    [Parameter]
+    public Guid Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        try
+        {
+            if (Id!=Guid.Empty)
+            {
+                Title = "Edit";
+
+                httpClient.Timeout = new TimeSpan(100000000);
+                httpClient.DefaultRequestHeaders.Accept.Clear();
+                httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                var dto = await httpClient.GetFromJsonAsync<SectionPublicDto>(path + Id);
+
+                publicDto = dto;
+                model = new SectionEditDto(dto);
+            }
+            else
+            {
+                model = new SectionEditDto();
+            }
+        }
+        catch (Exception ex)
+        {
+            error = $"Failed to load data: {ex.Message}";
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        try
+        {
+
+            SectionUpdateDto updateDto = model.getUpdateDto();
+            updateDto.reports = publicDto.reports.Aggregate(new List<Guid>(), (t, s) => { t.Add(Guid.Parse(s.Id)); return t; });
+
+            if (model.id != null)
+            {
+
+                await httpClient.PutAsJsonAsync(path + model.id, updateDto);
+            }
+            else
+            {
+                SectionPublicDto dto = await httpClient.PostAsJsonAsync(path, updateDto).Result.Content.ReadFromJsonAsync<SectionPublicDto>();
+                model.id = dto.Id.ToString();
+            }
+            navigationManager.NavigateTo(path + model.id);
+        }
+        catch (Exception ex)
+        {
+            error = $"Error while updating: {ex.Message}";
+        }
+    }
+
+
+
+    private void Cancel()
+    {
+        if (model.id != null)
+        {
+            navigationManager.NavigateTo(path + model.id);
+        }
+        else
+        {
+            navigationManager.NavigateTo(path);
+        }
+    }
+
+}
+
+

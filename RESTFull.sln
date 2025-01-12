@@ -20,6 +20,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RESTFull.Service", "RESTFul
 		{374D7499-55E8-4967-BE4D-99113808B023} = {374D7499-55E8-4967-BE4D-99113808B023}
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "REDTFUL_web", "REDTFUL_web\REDTFUL_web\REDTFUL_web.csproj", "{463B5749-699E-4252-8914-AC500DA3F197}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "REDTFUL_web.Client", "REDTFUL_web\REDTFUL_web.Client\REDTFUL_web.Client.csproj", "{7CE94A70-0C90-4FC4-AB96-E82FE29D4F12}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +46,14 @@ Global
 		{ACA837DC-4F75-4C74-93B8-6AA0AEE14C92}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ACA837DC-4F75-4C74-93B8-6AA0AEE14C92}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ACA837DC-4F75-4C74-93B8-6AA0AEE14C92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{463B5749-699E-4252-8914-AC500DA3F197}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{463B5749-699E-4252-8914-AC500DA3F197}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{463B5749-699E-4252-8914-AC500DA3F197}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{463B5749-699E-4252-8914-AC500DA3F197}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CE94A70-0C90-4FC4-AB96-E82FE29D4F12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CE94A70-0C90-4FC4-AB96-E82FE29D4F12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CE94A70-0C90-4FC4-AB96-E82FE29D4F12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CE94A70-0C90-4FC4-AB96-E82FE29D4F12}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -12,7 +12,7 @@ namespace RESTFull.Service.dto
         public String title { get; set; }
         public String description { get; set; }
         public DateTime time { get; set; }
-        public List<String> reports { get; set; }
-        public String conference { get; set; }
+        public List<Guid> reports { get; set; }
+        public Guid conference { get; set; }
     }
 }

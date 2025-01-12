@@ -1,0 +1,56 @@
+﻿@page "/conferences/{id:guid}"
+@using RESTFull.Service.dto
+@inject HttpClient httpClient
+<h3>Conference</h3>
+
+<ul>
+    <p>@conference?.title</p>
+    <p>@conference?.status</p>
+    <p>@conference?.startDate</p>
+    <p>@conference?.endDate</p>
+    <p>@conference?.location</p>
+    <p>@conference?.description</p>
+    <h3>Sections:</h3>
+    <div>
+        @if(conference!=null && conference?.sections!=null && conference.sections.Count>0){
+        @foreach(var sec in conference.sections)
+        {
+             <a href="/sections/@sec.Id">&emsp;@sec.title</a>
+        }
+   }
+    </div>
+    <div>
+    <h3>Participants:</h3>
+       @if(conference!=null && conference?.participants!=null && conference.participants.Count>0){
+            @foreach (var participant in conference.participants)
+            {
+                <a href="/participants/@participant.id">&emsp;@participant.name</a>
+            }
+       }
+    </div>
+
+    <a href="/conferences/@Id/e">Edit</a>
+
+    
+</ul>
+
+@code {
+
+    [Parameter]
+    public Guid Id { get; set; }
+    private ConferencePublicDto ?conference;
+
+
+    async Task GetAll()
+    {
+        var response = await httpClient.GetFromJsonAsync<ConferencePublicDto>("/"+Id);
+        Console.Write(response.ToString());
+        conference = response;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetAll();
+    }
+
+}

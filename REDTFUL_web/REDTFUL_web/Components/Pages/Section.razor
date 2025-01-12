@@ -1,0 +1,46 @@
+﻿@page "/sections/{id:guid}"
+@using RESTFull.Service.dto
+@inject HttpClient httpClient
+<h3>Section</h3>
+
+<ul>
+    <p>@sec?.title</p>
+    <p>@sec?.description</p>
+    <p>@sec?.time</p>
+
+    <h3>Reports:</h3>
+    <div>
+        @if (sec != null && sec?.reports != null && sec?.reports.Count > 0)
+        {
+            @foreach (var report in sec?.reports)
+            {
+                <a href="/reports/@report.Id">&emsp;@report.title</a>
+            }
+        }
+    </div>
+
+    <a href="/sections/@id/e">Edit</a>
+
+</ul>
+
+
+
+@code {
+    [Parameter]
+    public Guid id { get; set; }
+    private SectionPublicDto sec;
+
+
+    async Task GetAll()
+    {
+        var response = await httpClient.GetFromJsonAsync<SectionPublicDto>("/sections/" + id);
+        Console.Write(response.ToString());
+        sec = response;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetAll();
+    }
+
+}

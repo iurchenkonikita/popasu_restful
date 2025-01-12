@@ -32,7 +32,7 @@ namespace RESTFull.Service.mapper
         {
             Conference result = new Conference();
 
-            result.Id = updateDto.id;
+            result.Id = Guid.Parse(updateDto.id);
             result.title = updateDto.title;
             result.status = updateDto.status;
             result.startDate = updateDto.startDate;
@@ -47,7 +47,7 @@ namespace RESTFull.Service.mapper
         {
             ConferencePublicDto result = new ConferencePublicDto();
 
-            result.id = conference.Id.ToString();
+            result.id = conference.Id;
             result.title = conference.title;
             result.status = conference.status;
             result.startDate = conference.startDate;
@@ -88,6 +88,24 @@ namespace RESTFull.Service.mapper
 
             return result;
         }
+
+        public static ConferenceUpdateDto map(ConferencePublicDto dto)
+        {
+            ConferenceUpdateDto updateDto = new ConferenceUpdateDto();
+
+            updateDto.id = dto.id.ToString();
+            updateDto.description = dto.description;
+            updateDto.title = dto.title;
+            updateDto.status = dto.status;
+            updateDto.startDate = dto.startDate;
+            updateDto.endDate = dto.endDate;
+            updateDto.location = dto.location;
+            updateDto.sections = dto.sections.Select(x => Guid.Parse(x.Id)).ToList();
+            updateDto.participants = dto.participants.Select(x => Guid.Parse(x.id)).ToList();
+
+
+            return updateDto;
+            }
     }
         
 }

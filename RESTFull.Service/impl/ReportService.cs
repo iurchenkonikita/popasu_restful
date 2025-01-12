@@ -67,6 +67,8 @@ namespace RESTFull.Service.impl
             List<Participant> authors = _participantRepository.GetAllByReport(report.Id);
             report.authors = authors;
 
+            report.section = _sectionReporitory.GetById(report.section.Id);
+
 
             return _mapper.map(report);
         }

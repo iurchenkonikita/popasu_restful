@@ -1,0 +1,33 @@
+﻿@page "/sections"
+@using RESTFull.Service.dto
+@inject HttpClient httpClient
+<h3>Sections</h3>
+
+<ul>
+    @foreach (var sec in sections)
+    {
+        <li><a href="/sections/@sec.Id">@sec.title</a></li>
+    }
+    <a href="/sections/add">Add</a>
+
+</ul>
+
+
+
+@code {
+    private List<SectionPublicDto> sections = new List<SectionPublicDto>();
+
+
+    async Task GetAll()
+    {
+        var response = await httpClient.GetFromJsonAsync<List<SectionPublicDto>>("/sections");
+        Console.Write(response.ToString());
+        sections.AddRange(response);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetAll();
+    }
+
+}

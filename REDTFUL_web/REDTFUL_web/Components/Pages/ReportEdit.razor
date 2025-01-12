@@ -1,0 +1,146 @@
+﻿@page "/reports/add"
+@page "/reports/{id:guid}/e"
+@using REDTFUL_web.dto
+@using RESTFull.Service.dto
+@using RESTFull.Service.mapper
+@inject HttpClient httpClient
+@inject NavigationManager navigationManager
+
+
+@if (model != null)
+{
+    <EditForm Model="@model" OnSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-group">
+            <label for="Id">Id:</label>
+            <InputText id="Id" class="form-control" @bind-Value="model.id" />
+        </div>
+
+        <div class="form-group">
+            <label for="Annotation">Annotation:</label>
+            <InputText id="Annotation" class="form-control" @bind-Value="model.annotation" />
+        
+        </div>
+
+        <div class="form-group">
+            <label for="PresentationTime">PresentationTime:</label>
+            <InputDate id="PresentationTime" class="form-control" @bind-Value="model.presentationTime" />
+
+        </div>
+
+        <div class="form-group">
+            <label for="Section">Section:</label>
+            <InputText id="Section" class="form-control" @bind-Value="model.section" />
+
+        </div>
+
+
+
+        <button type="submit" class="btn btn-primary" onclick="HandleValidSubmit">Save</button>
+        <button type="button" class="btn btn-secondary" @onclick="Cancel">Cancel</button>
+    </EditForm>
+}
+else if (loading)
+{
+    <p>Loading...</p>
+}
+else if (error != null)
+{
+    <p class="text-danger">@error</p>
+}
+
+
+@code {
+
+
+    public ReportEditDto? model { get; set; }
+    private ReportPublicDto? publicDto { get; set; }
+    private bool loading = true;
+    private string? error;
+    protected string Title = "Add";
+    private readonly string path = "/reports/";
+
+    [Parameter]
+    public Guid Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        try
+        {
+            if (Id!=Guid.Empty)
+            {
+                Title = "Edit";
+
+                httpClient.Timeout = new TimeSpan(100000000);
+                httpClient.DefaultRequestHeaders.Accept.Clear();
+                httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                var dto = await httpClient.GetFromJsonAsync<ReportPublicDto>(path + Id);
+
+                publicDto = dto;
+                model = new ReportEditDto(dto);
+            }
+            else
+            {
+                model = new ReportEditDto();
+            }
+        }
+        catch (Exception ex)
+        {
+            error = $"Failed to load data: {ex.Message}";
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        try
+        {
+
+            ReportUpdateDto updateDto = model.getUpdateDto();
+            updateDto.authors = publicDto.authors.Aggregate(new List<Guid>(), (t, s) => { t.Add(Guid.Parse(s.id)); return t; });
+
+            if (model.id != null)
+            {
+
+                await httpClient.PutAsJsonAsync(path + model.id, updateDto);
+            }
+            else
+            {
+                ReportPublicDto dto = await httpClient.PostAsJsonAsync(path, updateDto).Result.Content.ReadFromJsonAsync<ReportPublicDto>();
+                model.id = dto.Id.ToString();
+            }
+            navigationManager.NavigateTo(path + model.id);
+        }
+        catch (Exception ex)
+        {
+            error = $"Error while updating: {ex.Message}";
+        }
+    }
+
+
+
+    private void Cancel()
+    {
+        if (model.id != null)
+        {
+            navigationManager.NavigateTo(path + model.id);
+        }
+        else
+        {
+            navigationManager.NavigateTo(path);
+        }
+    }
+
+}
+
+
