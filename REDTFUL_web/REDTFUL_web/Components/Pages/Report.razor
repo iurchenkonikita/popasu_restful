@@ -5,18 +5,31 @@
 
 
 <ul>
-    <p>@report?.title</p>
-    <p>@report?.annotation</p>
-    <p>@report?.presentationTime</p>
-    <a href="/sections/@report?.section.Id">&emsp;@report?.section.title</a>
+    <div class="form-group">
+        <label for="Title">Title:</label>
+        <p class="form-control">@report?.title</p>
+    </div>
+    <div class="form-group">
+        <label for="Annotation">Annotation:</label>
+        <p class="form-control">@report?.annotation</p>
+    </div>
+    <div class="form-group">
+        <label for="PresentationTime">PresentationTime:</label>
+        <p class="form-control">@report?.presentationTime</p>
+    </div>
+
+    <div class="form-group">
+        <label for="Section">Section:</label>
+        <a href="/sections/@report?.section.Id" class="form-control">&emsp;@report?.section.title</a>
+    </div>
 
     <h3>Authors:</h3>
-    <div>
+    <div class="form-group">
         @if (report != null && report?.authors != null && report.authors.Count > 0)
         {
             @foreach (var author in report.authors)
             {
-                <a href="/participants/@author.id">&emsp;@author.name</a>
+                <a href="/participants/@author.id" class="form-control">&emsp;@author.name</a>
                 <br />
             }
         }

@@ -1,11 +1,4 @@
-﻿using RESTFull.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RESTFull.Service.dto
+﻿namespace RESTFull.Service.dto
 {
     public class ReportPublicDto
     {

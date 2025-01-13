@@ -1,5 +1,4 @@
 ﻿using RESTFull.Domain.Base;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RESTFull.Domain
 {
@@ -18,18 +17,18 @@ namespace RESTFull.Domain
         {
             sections.Add(section);
         }
-        public void removeSection(Section section) 
-        { 
-            sections.Remove(section); 
+        public void removeSection(Section section)
+        {
+            sections.Remove(section);
         }
 
         public void addParticipant(Participant participant)
         {
             participants.Add(participant);
         }
-        public void removeParticipant(Participant participant) 
-        { 
-            participants.Remove(participant); 
+        public void removeParticipant(Participant participant)
+        {
+            participants.Remove(participant);
         }
     }
 }

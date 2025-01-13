@@ -1,5 +1,4 @@
 ﻿using RESTFull.Domain.Base;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RESTFull.Domain
 {

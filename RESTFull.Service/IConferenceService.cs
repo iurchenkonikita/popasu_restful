@@ -1,10 +1,5 @@
 ﻿using RESTFull.API.dto;
 using RESTFull.Service.dto;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RESTFull.Domain
 {
@@ -16,5 +11,5 @@ namespace RESTFull.Domain
         public ConferencePublicDto update(ConferenceUpdateDto updateDto);
         public void delete(Guid id);
 
-        }
+    }
 }

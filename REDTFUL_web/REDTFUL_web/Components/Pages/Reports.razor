@@ -6,7 +6,11 @@
 <ul>
     @foreach (var report in reports)
     {
-        <li><a href="/reports/@report.Id">@report.title</a></li>
+
+        <div class="form-group">
+
+            <a href="/reports/@report.Id" class="form-control"><label>@report.title</label></a>
+        </div>
     }
 
     <a href="/reports/add">Add</a>

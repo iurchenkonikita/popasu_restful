@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RESTFull.API.mapper;
-using RESTFull.Domain;
-using RESTFull.Service.dto;
 using RESTFull.Service;
+using RESTFull.Service.dto;
 
 namespace RESTFull.API.Controllers
 {
@@ -58,14 +57,14 @@ namespace RESTFull.API.Controllers
 
         // POST: ParticipantController/Edit/5
         [HttpPut("/participants/{id}")]
-        public async Task<ActionResult<ParticipantPublicDto>> Edit(String id,[FromBody] ParticipantUpdateDto dto)
+        public async Task<ActionResult<ParticipantPublicDto>> Edit(String id, [FromBody] ParticipantUpdateDto dto)
         {
             try
             {
                 ParticipantPublicDto Participant = _service.update(dto);
                 return CreatedAtAction(nameof(Edit), Participant);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return BadRequest(e.Message);
             }

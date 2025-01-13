@@ -1,17 +1,14 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using RESTFull.API.mapper;
-using RESTFull.Domain;
 using RESTFull.Service;
 using RESTFull.Service.dto;
-using RESTFull.Service.gateway;
 
 namespace RESTFull.API.Controllers
 {
 
     public class SectionController : Controller
     {
-        
+
         private ISectionService _sectionService;
         private SectionFormToDtoMapper _mapper;
 
@@ -46,7 +43,7 @@ namespace RESTFull.API.Controllers
 
         // POST: SectionController/Create
         [HttpPost("/sections/")]
-        
+
         public async Task<ActionResult<SectionPublicDto>> Create([FromBody] SectionCreateDto dto)
         {
             try
@@ -69,11 +66,12 @@ namespace RESTFull.API.Controllers
                 SectionPublicDto Section = _sectionService.update(dto);
                 return CreatedAtAction(nameof(Edit), Section);
             }
-            catch(FormatException e)
+            catch (FormatException e)
             {
                 return BadRequest("Incorrect format of 'guid' to reference entity");
 
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 return BadRequest(e.Message);
 
@@ -85,7 +83,7 @@ namespace RESTFull.API.Controllers
         public ActionResult Delete(String id)
         {
             _sectionService.delete(Guid.Parse(id));
-            return CreatedAtAction(nameof(Delete), String.Format("Section '{0}' was deleted!",id));
+            return CreatedAtAction(nameof(Delete), String.Format("Section '{0}' was deleted!", id));
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Primitives;
-using RESTFull.API.dto;
-using RESTFull.Domain;
+﻿using RESTFull.API.dto;
 using RESTFull.Service.dto;
 
 namespace RESTFull.API.mapper

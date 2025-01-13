@@ -1,10 +1,4 @@
-﻿using RESTFull.Domain;
-using RESTFull.Service.dto;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using RESTFull.Service.dto;
 
 namespace RESTFull.Service
 {

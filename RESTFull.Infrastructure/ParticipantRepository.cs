@@ -1,15 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RESTFull.Domain;
 using RESTFull.Service.gateway;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RESTFull.Infrastructure
 {
-    public class ParticipantRepository :IParticipantRepository
+    public class ParticipantRepository : IParticipantRepository
     {
 
         private Context Context { get; set; }
@@ -82,7 +77,7 @@ namespace RESTFull.Infrastructure
 
             Context.SaveChanges();
             return curModel;
-            
+
 
         }
 
@@ -102,7 +97,7 @@ namespace RESTFull.Infrastructure
                 .Include(p => p.reports)
                 .Where(c => c.conferences.Any(p => p.Id == conferenceId))
                 .ToList();
-            
+
         }
     }
 }

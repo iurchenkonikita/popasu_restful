@@ -1,6 +1,4 @@
-﻿using RESTFull.Service.dto;
-
-namespace RESTFull.API.mapper
+﻿namespace RESTFull.API.mapper
 {
     public class SectionFormToDtoMapper
     {

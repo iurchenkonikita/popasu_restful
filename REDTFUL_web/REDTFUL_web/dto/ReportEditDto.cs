@@ -27,7 +27,7 @@ namespace REDTFUL_web.dto
             this.title = dto.title;
             this.annotation = dto.annotation;
             this.presentationTime = dto.presentationTime;
-            this.section = dto.section.ToString();
+            this.section = dto.section.Id.ToString();
         }
 
         public ReportEditDto()
@@ -38,11 +38,11 @@ namespace REDTFUL_web.dto
         {
             ReportUpdateDto dto = new ReportUpdateDto();
 
-           dto.id = Guid.Parse(id);
-           dto.title = title;
-           dto.annotation = annotation;
-           dto.presentationTime = presentationTime;
-           dto.section = Guid.Parse( section);
+            dto.id = Guid.Parse(id);
+            dto.title = title;
+            dto.annotation = annotation;
+            dto.presentationTime = presentationTime;
+            dto.section = Guid.Parse(section);
 
             return dto;
         }

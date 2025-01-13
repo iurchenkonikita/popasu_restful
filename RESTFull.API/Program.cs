@@ -1,12 +1,11 @@
 using Microsoft.EntityFrameworkCore;
-using RESTFull.Domain;
-using RESTFull.Service;
-using RESTFull.Infrastructure;
-using RESTFull.Service.gateway;
-using RESTFull.Service.mapper;
-using System;
 using RESTFull.API.mapper;
+using RESTFull.Domain;
+using RESTFull.Infrastructure;
+using RESTFull.Service;
+using RESTFull.Service.gateway;
 using RESTFull.Service.impl;
+using RESTFull.Service.mapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,7 +46,7 @@ app.MapControllers();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger(); 
+    app.UseSwagger();
     app.UseSwaggerUI();
 }
 

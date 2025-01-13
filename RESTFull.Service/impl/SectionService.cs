@@ -2,11 +2,6 @@
 using RESTFull.Service.dto;
 using RESTFull.Service.gateway;
 using RESTFull.Service.mapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RESTFull.Service.impl
 {
@@ -52,7 +47,7 @@ namespace RESTFull.Service.impl
                 section.reports = reports;
             }
 
-            List < SectionPublicDto > dtos = sections.Aggregate(new List<SectionPublicDto>(), (t, c) => { t.Add(_mapper.map(c)); return t; });
+            List<SectionPublicDto> dtos = sections.Aggregate(new List<SectionPublicDto>(), (t, c) => { t.Add(_mapper.map(c)); return t; });
 
             return dtos;
         }

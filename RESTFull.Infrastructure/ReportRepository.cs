@@ -1,13 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RESTFull.Domain;
 using RESTFull.Service.gateway;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Collections.Specialized.BitVector32;
 
 namespace RESTFull.Infrastructure
 {
@@ -31,7 +24,7 @@ namespace RESTFull.Infrastructure
             var toDelete = Context.Reports.FirstOrDefault(m => m.Id == id);
             if (toDelete != null)
             {
-           
+
                 Context.Reports.Remove(toDelete);
                 Context.SaveChanges();
             }
@@ -40,8 +33,8 @@ namespace RESTFull.Infrastructure
         public List<Report> GetAll()
         {
             return Context.Reports
-                .Include(r=>r.section)
-                .Include(r=>r.authors) 
+                .Include(r => r.section)
+                .Include(r => r.authors)
                 .ToList();
         }
 
@@ -65,8 +58,8 @@ namespace RESTFull.Infrastructure
         public Report Update(Report model)
         {
             var curModel = Context.Reports
-                .Include(r=>r.authors)
-                .Include(r=>r.section)
+                .Include(r => r.authors)
+                .Include(r => r.section)
                 .FirstOrDefault(c => c.Id == model.Id);
 
             if (curModel == null)
@@ -80,7 +73,7 @@ namespace RESTFull.Infrastructure
 
             Context.SaveChanges();
             return curModel;
-           
+
 
         }
 
@@ -97,7 +90,7 @@ namespace RESTFull.Infrastructure
             return Context.Reports
                 .Include(r => r.section)
                 .Include(r => r.authors)
-                .Where(r=>r.section.Id == sectionId)
+                .Where(r => r.section.Id == sectionId)
                 .ToList();
         }
 
@@ -106,7 +99,7 @@ namespace RESTFull.Infrastructure
             return Context.Reports
                 .Include(r => r.section)
                 .Include(r => r.authors)
-                .Where(r => r.authors.Any(a=>a.Id==participantId))
+                .Where(r => r.authors.Any(a => a.Id == participantId))
                 .ToList();
         }
     }

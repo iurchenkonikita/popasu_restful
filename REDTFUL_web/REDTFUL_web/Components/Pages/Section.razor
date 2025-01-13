@@ -4,17 +4,27 @@
 <h3>Section</h3>
 
 <ul>
-    <p>@sec?.title</p>
-    <p>@sec?.description</p>
-    <p>@sec?.time</p>
+    
+    <div class="form-group">
+        <label for="Title">Title:</label>
+        <p class="form-control">@sec?.title</p>
+    </div>
+    <div class="form-group">
+        <label for="Description">Description:</label>
+        <p class="form-control">@sec?.description</p>
+    </div>
+    <div class="form-group">
+        <label for="Time">Time:</label>
+        <p class="form-control">@sec?.time</p>
+    </div>
 
     <h3>Reports:</h3>
-    <div>
+    <div class="form-group">
         @if (sec != null && sec?.reports != null && sec?.reports.Count > 0)
         {
             @foreach (var report in sec?.reports)
             {
-                <a href="/reports/@report.Id">&emsp;@report.title</a>
+                <a href="/reports/@report.Id" class="form-control">&emsp;@report.title</a> <br/>
             }
         }
     </div>

@@ -28,18 +28,18 @@ namespace REDTFUL_web.dto
             this.name = dto.name;
             this.role = dto.role;
             this.contactInfo = dto.contactInfo;
-            this.organization = dto.organization; 
+            this.organization = dto.organization;
         }
         public ParticipantEditDto() { }
 
         public ParticipantUpdateDto getUpdateDto()
         {
             ParticipantUpdateDto update = new ParticipantUpdateDto();
-           update.id = Guid.Parse(id);                      
-           update.name = name;                  
-           update.role = role;                  
-           update.contactInfo = contactInfo;    
-            update.organization = organization; 
+            update.id = Guid.Parse(id);
+            update.name = name;
+            update.role = role;
+            update.contactInfo = contactInfo;
+            update.organization = organization;
 
             return update;
         }

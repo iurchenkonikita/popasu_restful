@@ -2,11 +2,6 @@
 using RESTFull.Service.dto;
 using RESTFull.Service.gateway;
 using RESTFull.Service.mapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RESTFull.Service.impl
 {
@@ -54,14 +49,14 @@ namespace RESTFull.Service.impl
                 List<Participant> authors = _participantRepository.GetAllByReport(report.Id);
                 report.authors = authors;
             }
-            List < ReportPublicDto > dtos = reports.Aggregate(new List<ReportPublicDto>(), (t, c) => { t.Add(_mapper.map(c)); return t; });
+            List<ReportPublicDto> dtos = reports.Aggregate(new List<ReportPublicDto>(), (t, c) => { t.Add(_mapper.map(c)); return t; });
 
             return dtos;
         }
 
         public ReportPublicDto findById(Guid id)
         {
-            
+
             Report report = _reportRepository.GetById(id);
 
             List<Participant> authors = _participantRepository.GetAllByReport(report.Id);

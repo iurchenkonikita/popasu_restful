@@ -6,7 +6,11 @@
 <ul>
     @foreach (var sec in sections)
     {
-        <li><a href="/sections/@sec.Id">@sec.title</a></li>
+
+        <div class="form-group">
+
+            <a href="/sections/@sec.Id" class="form-control"><label>@sec.title</label></a>
+        </div>
     }
     <a href="/sections/add">Add</a>
 

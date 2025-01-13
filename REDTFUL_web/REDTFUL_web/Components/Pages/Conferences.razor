@@ -1,12 +1,17 @@
 ﻿@page "/conferences"
 @using RESTFull.Service.dto
-@inject IHttpClientFactory _httpClientFactory
+@inject HttpClient httpClient
 <h3>Conferrence</h3>
 
 <ul>
     @foreach (var conference in conferences)
     {
-        <li><a href="/conferences/@conference.id">@conference.title</a></li>
+
+        <div class="form-group">
+            
+            <a href="/conferences/@conference.id" class="form-control"><label>@conference.title</label></a>
+        </div>
+        
     }
 
     <a href="/conferences/add">Add</a>
@@ -21,8 +26,7 @@
 
         try
         {
-            var client = _httpClientFactory.CreateClient("MyApiClient");
-            var response = await client.GetAsync("/");
+            var response = await httpClient.GetAsync("/");
 
             if (response.IsSuccessStatusCode)
             {

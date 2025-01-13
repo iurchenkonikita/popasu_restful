@@ -1,10 +1,4 @@
-﻿using RESTFull.Domain;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace RESTFull.Service.dto
 {
@@ -19,7 +13,7 @@ namespace RESTFull.Service.dto
         [MinLength(1, ErrorMessage = "Section's description can't be empty!")]
         public String description { get; set; }
 
-        [Required( ErrorMessage = "Section's conference can't be empty!")]
+        [Required(ErrorMessage = "Section's conference can't be empty!")]
         public Guid conference { get; set; }
 
         [Required(ErrorMessage = "Section's time must be specified!")]

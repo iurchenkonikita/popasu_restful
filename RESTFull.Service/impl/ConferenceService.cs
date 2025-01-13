@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Runtime.ConstrainedExecution;
-using System.Text;
-using System.Threading.Tasks;
-using RESTFull.API.dto;
+﻿using RESTFull.API.dto;
 using RESTFull.Domain;
 using RESTFull.Service.dto;
 using RESTFull.Service.gateway;
@@ -13,7 +6,7 @@ using RESTFull.Service.mapper;
 
 namespace RESTFull.Service
 {
-    
+
     public class ConferenceService : IConferenceService
     {
         private IConferenceRepository _conferenceRepository { get; set; }
@@ -43,7 +36,7 @@ namespace RESTFull.Service
             return _mapper.map(conference);
         }
 
-       
+
 
         public void delete(Guid id)
         {
@@ -53,16 +46,17 @@ namespace RESTFull.Service
 
         public List<ConferencePublicDto> findAll()
         {
-            List<Conference> conferences = _conferenceRepository.GetAll(); 
-            foreach(Conference conference in  conferences)
+            List<Conference> conferences = _conferenceRepository.GetAll();
+            foreach (Conference conference in conferences)
             {
                 List<Section> sections = _sectionRepository.GetByConferenceId(conference.Id);
                 List<Participant> participants = _participantRepository.GetAllByConferenceId(conference.Id);
                 conference.sections = sections;
                 conference.participants = participants;
             }
-            List<ConferencePublicDto> dtos = conferences.Aggregate(new List<ConferencePublicDto>(), 
-                (t, c) => {
+            List<ConferencePublicDto> dtos = conferences.Aggregate(new List<ConferencePublicDto>(),
+                (t, c) =>
+                {
                     t.Add(_mapper.map(c)); return t;
                 });
             return dtos;
@@ -70,8 +64,8 @@ namespace RESTFull.Service
 
         public ConferencePublicDto findById(Guid id)
         {
-            Conference conference = _conferenceRepository.GetById(id); 
-            
+            Conference conference = _conferenceRepository.GetById(id);
+
             List<Section> sections = _sectionRepository.GetByConferenceId(conference.Id);
             List<Participant> participants = _participantRepository.GetAllByConferenceId(conference.Id);
             conference.sections = sections;
@@ -87,7 +81,7 @@ namespace RESTFull.Service
             conference.participants = _participantRepository.GetById(updateDto.participants);
             conference.sections = _sectionRepository.GetById(updateDto.sections);
 
-            conference= _conferenceRepository.Update(conference);
+            conference = _conferenceRepository.Update(conference);
 
             return _mapper.map(conference);
         }

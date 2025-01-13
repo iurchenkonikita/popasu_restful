@@ -3,12 +3,6 @@ using RESTFull.Service.dto;
 using RESTFull.Service.gateway;
 using RESTFull.Service.mapper;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace RESTFull.Service.impl
 {
     public class ParticipantService : IParticipantService
@@ -63,7 +57,7 @@ namespace RESTFull.Service.impl
             List<Conference> conferences = _conferenceRepository.getAllByParticipant(participant.Id);
             participant.conferences = conferences;
 
-            List<Report> reports= _reportRepository.getAllByParticipant(participant.Id);
+            List<Report> reports = _reportRepository.getAllByParticipant(participant.Id);
             participant.reports = reports;
 
 
@@ -72,7 +66,7 @@ namespace RESTFull.Service.impl
 
         public ParticipantPublicDto update(ParticipantUpdateDto updateDto)
         {
-            Participant  participant = _mapper.Map(updateDto);
+            Participant participant = _mapper.Map(updateDto);
 
             participant.conferences = _conferenceRepository.GetById(updateDto.conferences);
             participant.reports = _reportRepository.GetById(updateDto.reports);

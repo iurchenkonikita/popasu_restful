@@ -1,15 +1,13 @@
-﻿using Azure;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
+﻿using Microsoft.EntityFrameworkCore;
 using RESTFull.Domain;
 
 namespace RESTFull.Infrastructure
 {
-   
+
     public class Context : DbContext
     {
 
-        
+
         public Context(DbContextOptions<Context> options) : base(options) { }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

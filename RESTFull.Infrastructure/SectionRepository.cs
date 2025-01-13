@@ -7,9 +7,10 @@ namespace RESTFull.Infrastructure
 {
     public class SectionRepository : ISectionReporitory
     {
-            private Context Context { get; set; }
-        
-        public SectionRepository(Context context) {
+        private Context Context { get; set; }
+
+        public SectionRepository(Context context)
+        {
             Context = context;
         }
         public Section Create(Section model)
@@ -34,7 +35,7 @@ namespace RESTFull.Infrastructure
         {
             return Context.Sections
                 .Include(section => section.conference)
-                .Include(Section=>Section.reports)
+                .Include(Section => Section.reports)
                 .ToList();
         }
 
@@ -75,7 +76,7 @@ namespace RESTFull.Infrastructure
                 return curModel;
             }
             return null;
-            
+
         }
 
         public Section Get(Guid id)

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using REDTFUL_web.Client.Pages;
 using REDTFUL_web.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,12 +12,8 @@ builder.Services.AddScoped(sp =>
     new HttpClient
     {
         BaseAddress = new Uri(builder.Configuration["FrontendUrl"] ?? "https://localhost:7257")
-    }); 
-builder.Services.AddHttpClient("MyApiClient", client =>
-{
-    client.BaseAddress = new Uri(builder.Configuration["FrontendUrl"] ?? "https://localhost:7257");
-    client.Timeout = TimeSpan.FromSeconds(10); // Установка таймаута
-});
+    });
+
 
 
 

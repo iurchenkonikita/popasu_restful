@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RESTFull.Domain;
 using RESTFull.Service.gateway;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RESTFull.Infrastructure
 {
@@ -40,8 +35,8 @@ namespace RESTFull.Infrastructure
         public List<Conference> GetAll()
         {
             return Context.Conferences
-                .Include(conf=>conf.participants)
-                .Include(conf=>conf.sections)
+                .Include(conf => conf.participants)
+                .Include(conf => conf.sections)
                 .ToList();
         }
 
@@ -79,7 +74,7 @@ namespace RESTFull.Infrastructure
 
             Context.SaveChanges();
             return curModel;
-         
+
 
         }
 

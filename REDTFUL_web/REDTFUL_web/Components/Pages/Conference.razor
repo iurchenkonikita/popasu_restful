@@ -4,32 +4,60 @@
 <h3>Conference</h3>
 
 <ul>
-    <p>@conference?.title</p>
-    <p>@conference?.status</p>
-    <p>@conference?.startDate</p>
-    <p>@conference?.endDate</p>
-    <p>@conference?.location</p>
-    <p>@conference?.description</p>
+
+    <div class="form-group">
+        <label for="Title">Title:</label>
+        <p class="form-control">@conference?.title</p>
+    </div>
+
+    <div class="form-group">
+        <label for="Status">Status:</label>
+        <p class="form-control">@conference?.status</p>
+    </div>
+    
+    <div class="form-group">
+        <label for="StartDate">StartDate:</label>
+        <p class="form-control">@conference?.startDate</p>
+    </div>
+    <div class="form-group">
+        <label for="EndDate">EndDate:</label>
+        <p class="form-control">@conference?.endDate</p>
+    </div>
+    <div class="form-group">
+        <label for="Location">Location:</label>
+        <p class="form-control">@conference?.location</p>
+    </div>
+    <div class="form-group">
+        <label for="Description">Description:</label>
+        <p class="form-control">@conference?.description</p>
+    </div>
+
     <h3>Sections:</h3>
-    <div>
+    <div class="form-group">
         @if(conference!=null && conference?.sections!=null && conference.sections.Count>0){
         @foreach(var sec in conference.sections)
         {
-             <a href="/sections/@sec.Id">&emsp;@sec.title</a>
+               
+            <a href="/sections/@sec.Id" class="form-control">&emsp;@sec.title</a> <br/>
+                
+             
         }
    }
     </div>
-    <div>
+
     <h3>Participants:</h3>
+    <div class="form-group">
        @if(conference!=null && conference?.participants!=null && conference.participants.Count>0){
             @foreach (var participant in conference.participants)
             {
-                <a href="/participants/@participant.id">&emsp;@participant.name</a>
+                <a href="/participants/@participant.id" class="form-control">&emsp;@participant.name</a>
+
+                <br />
             }
        }
     </div>
 
-    <a href="/conferences/@Id/e">Edit</a>
+    <a href="/conferences/@Id/e" >Edit</a>
 
     
 </ul>

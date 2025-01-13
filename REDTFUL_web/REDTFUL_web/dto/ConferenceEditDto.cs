@@ -31,13 +31,13 @@ namespace REDTFUL_web.dto
 
         public ConferenceEditDto(ConferencePublicDto dto)
         {
-            this.id = dto.id.ToString();                     
-            this.title = dto.title;               
-            this.status = dto.status;             
-            this.startDate = dto.startDate;       
-            this.endDate = dto.endDate;           
-            this.location = dto.location;         
-            this.description = dto.description;   
+            this.id = dto.id.ToString();
+            this.title = dto.title;
+            this.status = dto.status;
+            this.startDate = dto.startDate;
+            this.endDate = dto.endDate;
+            this.location = dto.location;
+            this.description = dto.description;
         }
         public ConferenceEditDto() { }
 

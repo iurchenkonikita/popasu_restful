@@ -1,13 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using RESTFull.Domain;
-using RESTFull.Domain.Base;
-using RESTFull.Service;
-using RESTFull.Service.mapper;
-using RESTFull.Service.gateway;
-using RESTFull.Infrastructure;
+﻿using Microsoft.AspNetCore.Mvc;
 using RESTFull.API.mapper;
-using RESTFull.API.dto;
+using RESTFull.Service;
 using RESTFull.Service.dto;
 
 namespace RESTFull.API.Controllers

@@ -1,7 +1,4 @@
-﻿using RESTFull.API.dto;
-using RESTFull.Service.dto;
-
-namespace RESTFull.API.mapper
+﻿namespace RESTFull.API.mapper
 {
     public class ReportFromToDtoMapper
     {

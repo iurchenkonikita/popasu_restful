@@ -6,7 +6,11 @@
 <ul>
     @foreach (var participant in participants)
     {
-        <li><a href="/participants/@participant.id">@participant.name</a></li>
+
+        <div class="form-group">
+
+            <a href="/participants/@participant.id" class="form-control"><label>@participant.name</label></a>
+        </div>
     }
 </ul>
 

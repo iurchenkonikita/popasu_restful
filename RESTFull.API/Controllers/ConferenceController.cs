@@ -1,15 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using RESTFull.Domain;
-using RESTFull.Domain.Base;
-using RESTFull.Service;
-using RESTFull.Service.mapper;
-using RESTFull.Service.gateway;
-using RESTFull.Infrastructure;
-using RESTFull.API.mapper;
+﻿using Microsoft.AspNetCore.Mvc;
 using RESTFull.API.dto;
+using RESTFull.API.mapper;
+using RESTFull.Domain;
 using RESTFull.Service.dto;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
 
 namespace RESTFull.API.Controllers
 {
@@ -46,7 +39,7 @@ namespace RESTFull.API.Controllers
             var conference = _conferenceService.findById(Guid.Parse(id));
             return new ActionResult<ConferencePublicDto>(conference);
         }
-  
+
 
         // POST: ConferenceController/Create
         [HttpPost("/")]
@@ -54,12 +47,13 @@ namespace RESTFull.API.Controllers
         {
             try
             {
-                
+
                 var conference = _conferenceService.create(dto);
                 return CreatedAtAction(nameof(Create), conference);
             }
-            catch(Exception ex) {
-            
+            catch (Exception ex)
+            {
+
                 return View(ex.Message);
             }
         }
@@ -73,7 +67,7 @@ namespace RESTFull.API.Controllers
                 var conference = _conferenceService.update(dto);
                 return CreatedAtAction(nameof(Edit), conference);
             }
-            catch(KeyNotFoundException e) 
+            catch (KeyNotFoundException e)
             {
                 return BadRequest(e.Message);
             }
@@ -88,7 +82,7 @@ namespace RESTFull.API.Controllers
         public ActionResult Delete(String id)
         {
             _conferenceService.delete(Guid.Parse(id));
-            return CreatedAtAction(nameof(Delete), String.Format("Conference '{0}' was deleted!",id));
+            return CreatedAtAction(nameof(Delete), String.Format("Conference '{0}' was deleted!", id));
         }
 
     }

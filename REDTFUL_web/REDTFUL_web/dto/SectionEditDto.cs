@@ -39,10 +39,10 @@ namespace REDTFUL_web.dto
             dto.id = Guid.Parse(id);
             dto.title = title;
             dto.description = description;
-            dto.conference = Guid.Parse( conference);
+            dto.conference = Guid.Parse(conference);
             dto.time = time;
 
-            return dto; 
+            return dto;
         }
     }
 }

@@ -1,11 +1,6 @@
 ﻿using RESTFull.Domain;
 using RESTFull.Service.dto;
 using RESTFull.Service.gateway;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RESTFull.Service.mapper
 {
@@ -53,8 +48,8 @@ namespace RESTFull.Service.mapper
             result.annotation = report.annotation;
             result.presentationTime = report.presentationTime;
             result.section = SectionMapper.mapToNRDto(report.section);
-            result.authors = report.authors.Aggregate(new List<ParticipantNoRefDto>(), 
-                (t, c)=> { t.Add(ParticipantMapper.mapToNRDto(c)); return t; });  
+            result.authors = report.authors.Aggregate(new List<ParticipantNoRefDto>(),
+                (t, c) => { t.Add(ParticipantMapper.mapToNRDto(c)); return t; });
 
             return result;
         }
@@ -63,12 +58,12 @@ namespace RESTFull.Service.mapper
         {
             ReportNoRefDto result = new ReportNoRefDto();
 
-            result.Id = report.Id.ToString() ;
+            result.Id = report.Id.ToString();
             result.title = report.title;
-            result.annotation = report.annotation; 
+            result.annotation = report.annotation;
             result.presentationTime = report.presentationTime;
             result.section = report.section.Id.ToString();
-            result.authors = report.authors.Aggregate(new List<String>(), 
+            result.authors = report.authors.Aggregate(new List<String>(),
                 (t, c) => { t.Add(c.Id.ToString()); return t; });
 
             return result;

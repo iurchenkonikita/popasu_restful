@@ -1,5 +1,4 @@
 ﻿using RESTFull.Domain.Base;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RESTFull.Domain
 {
@@ -24,8 +23,9 @@ namespace RESTFull.Domain
         {
             reports.Add(report);
         }
-        public void removeReport(Report report) {
+        public void removeReport(Report report)
+        {
             reports.Remove(report);
-            }
+        }
     }
 }

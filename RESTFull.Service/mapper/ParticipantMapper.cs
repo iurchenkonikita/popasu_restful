@@ -1,10 +1,5 @@
 ﻿using RESTFull.Domain;
 using RESTFull.Service.dto;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RESTFull.Service.mapper
 {
@@ -50,9 +45,9 @@ namespace RESTFull.Service.mapper
             result.role = participant.role;
             result.contactInfo = participant.contactInfo;
             result.organization = participant.organization;
-            result.conferences = participant.conferences.Aggregate(new List<ConferenceNoRefDto>(), 
+            result.conferences = participant.conferences.Aggregate(new List<ConferenceNoRefDto>(),
                 (t, c) => { t.Add(ConferenceMapper.mapToNRDto(c)); return t; });
-            result.reports = participant.reports.Aggregate(new List<ReportNoRefDto>(), 
+            result.reports = participant.reports.Aggregate(new List<ReportNoRefDto>(),
                 (t, c) => { t.Add(ReportMapper.mapToNRDto(c)); return t; });
 
 
@@ -60,17 +55,18 @@ namespace RESTFull.Service.mapper
 
         }
 
-        public static ParticipantNoRefDto mapToNRDto(Participant participant) {
+        public static ParticipantNoRefDto mapToNRDto(Participant participant)
+        {
             ParticipantNoRefDto result = new ParticipantNoRefDto();
 
-            result.id = participant.Id.ToString() ;
+            result.id = participant.Id.ToString();
             result.name = participant.name;
             result.role = participant.role;
             result.contactInfo = participant.contactInfo;
             result.organization = participant.organization;
-            result.conferences = participant.conferences.Aggregate(new List<String>(), 
+            result.conferences = participant.conferences.Aggregate(new List<String>(),
                 (t, c) => { t.Add(c.Id.ToString()); return t; });
-            result.reports = participant.reports.Aggregate(new List<String>(), 
+            result.reports = participant.reports.Aggregate(new List<String>(),
                 (t, c) => { t.Add(c.Id.ToString()); return t; });
 
             return result;
